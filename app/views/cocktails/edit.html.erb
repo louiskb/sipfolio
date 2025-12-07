@@ -1,7 +1,9 @@
+<%= render "edit_banner" %>
 <div class="container">
   <h1 class="mt-5">Edit <%= @cocktail.name %> cocktail</h1>
   <div class="row">
     <div class="col-12">
+
       <!-- Create cocktail form -->
       <%= simple_form_for @cocktail do |f| %>
         <%= f.input :name %>
