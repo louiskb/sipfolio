@@ -28,7 +28,7 @@
     <% @cocktails.each do |cocktail| %>
       <div class="col-12 col-md-6 col-lg-4">
         <%= link_to cocktail_path(cocktail), class: "text-decoration-none" do %>
-          <div class="card shadow card-hover p-3 m-1 mt-4">
+          <div class="card card-cocktail shadow card-hover p-3 m-1 mt-4">
             <!-- H2 and favorite icon -->
             <div class="d-flex justify-content-between align-items-center mb-2">
               <h2 class="fst-italic"><%= cocktail.name.capitalize %></h2>
