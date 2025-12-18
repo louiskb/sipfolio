@@ -20,7 +20,7 @@ users = []
   username = Faker::Internet.username(specifier: 5..10).gsub(/[^A-Za-z0-9_]/, '_')
   user = User.create!(
     email: Faker::Internet.unique.email,
-    password: "password123",
+    password: ENV["USER_PASSWORDS"],
     username: username,
     first_name: Faker::Name.first_name,
     admin: false
@@ -28,17 +28,17 @@ users = []
   users << user
 end
 user_admin = User.create!(
-    email: "drinksjournal.7p31d@silomails.com",
-    password: "789123idfk",
-    username: "potionmaster_42",
+    email: ENV["ADMIN_EMAIL"],
+    password: ENV["ADMIN_PASSWORD"],
+    username: ENV["ADMIN_USERNAME"],
     first_name: Faker::Name.first_name,
     admin: true
   )
 users << user_admin
 user_1 = User.create!(
-    email: "user_1_test.e6pxv@slmails.com",
-    password: "password1234v",
-    username: "wizard_mixer",
+    email: ENV["USER_1_EMAIL"],
+    password: ENV["USER_1_PASSWORD"],
+    username: ENV["USER_1_USERNAME"],
     first_name: Faker::Name.first_name,
     admin: false
   )
