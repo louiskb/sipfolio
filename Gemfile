@@ -78,3 +78,5 @@ gem "devise"
 gem "faker"
 
 gem "pundit"
+
+gem "ruby_llm"
