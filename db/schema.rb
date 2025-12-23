@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_11_08_095210) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_23_101026) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,6 +24,34 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_08_095210) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.bigint "byte_size", null: false
+    t.string "checksum"
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
   create_table "badges", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -31,6 +59,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_08_095210) do
     t.string "icon_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "chats", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "model_id"
+    t.index ["model_id"], name: "index_chats_on_model_id"
   end
 
   create_table "cocktails", force: :cascade do |t|
@@ -73,6 +108,47 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_08_095210) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.string "role", null: false
+    t.text "content"
+    t.json "content_raw"
+    t.integer "input_tokens"
+    t.integer "output_tokens"
+    t.integer "cached_tokens"
+    t.integer "cache_creation_tokens"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "chat_id", null: false
+    t.bigint "model_id"
+    t.bigint "tool_call_id"
+    t.index ["chat_id"], name: "index_messages_on_chat_id"
+    t.index ["model_id"], name: "index_messages_on_model_id"
+    t.index ["role"], name: "index_messages_on_role"
+    t.index ["tool_call_id"], name: "index_messages_on_tool_call_id"
+  end
+
+  create_table "models", force: :cascade do |t|
+    t.string "model_id", null: false
+    t.string "name", null: false
+    t.string "provider", null: false
+    t.string "family"
+    t.datetime "model_created_at"
+    t.integer "context_window"
+    t.integer "max_output_tokens"
+    t.date "knowledge_cutoff"
+    t.jsonb "modalities", default: {}
+    t.jsonb "capabilities", default: []
+    t.jsonb "pricing", default: {}
+    t.jsonb "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["capabilities"], name: "index_models_on_capabilities", using: :gin
+    t.index ["family"], name: "index_models_on_family"
+    t.index ["modalities"], name: "index_models_on_modalities", using: :gin
+    t.index ["provider", "model_id"], name: "index_models_on_provider_and_model_id", unique: true
+    t.index ["provider"], name: "index_models_on_provider"
   end
 
   create_table "points", force: :cascade do |t|
@@ -120,6 +196,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_08_095210) do
     t.index ["cocktail_id"], name: "index_tags_on_cocktail_id"
   end
 
+  create_table "tool_calls", force: :cascade do |t|
+    t.string "tool_call_id", null: false
+    t.string "name", null: false
+    t.jsonb "arguments", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "message_id", null: false
+    t.index ["message_id"], name: "index_tool_calls_on_message_id"
+    t.index ["name"], name: "index_tool_calls_on_name"
+    t.index ["tool_call_id"], name: "index_tool_calls_on_tool_call_id", unique: true
+  end
+
   create_table "user_reviews", force: :cascade do |t|
     t.float "rating"
     t.string "review"
@@ -151,11 +239,17 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_08_095210) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "chats", "models"
   add_foreign_key "cocktails", "users"
   add_foreign_key "doses", "cocktails"
   add_foreign_key "doses", "ingredients"
   add_foreign_key "favorites", "cocktails"
   add_foreign_key "favorites", "users"
+  add_foreign_key "messages", "chats"
+  add_foreign_key "messages", "models"
+  add_foreign_key "messages", "tool_calls"
   add_foreign_key "points", "profiles"
   add_foreign_key "profile_achievements", "achievements"
   add_foreign_key "profile_achievements", "profiles"
@@ -163,6 +257,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_08_095210) do
   add_foreign_key "profile_badges", "profiles"
   add_foreign_key "profiles", "users"
   add_foreign_key "tags", "cocktails"
+  add_foreign_key "tool_calls", "messages"
   add_foreign_key "user_reviews", "cocktails"
   add_foreign_key "user_reviews", "users"
 end
