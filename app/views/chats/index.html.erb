@@ -1,0 +1,20 @@
+<div class="container">
+  <p style="color: green"><%= notice %></p>
+  <% content_for :title, "Chats" %>
+  <h1 class="my-4">SipSense AI <i class="fa-regular fa-comment-dots"></i></h1>
+  <div id="chats">
+    <% @chats.each do |chat| %>
+      <div class="card p-2 mt-3 mb-4">
+        <div class="card-body">
+          <%= render chat %>
+          <p>
+            <%= link_to chat, class: "btn btn-outline-light rounded-2 mt-4" do %>
+            <i class="fa-solid fa-comment-dots"></i> Continue Chat
+            <% end %>
+          </p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <%= link_to "New Chat", new_chat_path, class: "btn btn-primary rounded-2 my-3" %>
+</div>

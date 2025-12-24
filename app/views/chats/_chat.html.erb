@@ -1,0 +1,21 @@
+<div id="<%= dom_id chat %>">
+  <div class="purple-font card-title fs-5">
+    <% first_message = chat.messages.first %>
+    <%= first_message.content %>
+  </div>
+
+  <div class="card-text text-light">
+    <strong>Model:</strong>
+    <%= chat.model&.name || 'Default' %>
+  </div>
+
+  <div class="card-text text-light">
+    <strong>Messages:</strong>
+    <%= chat.messages.count %>
+  </div>
+
+  <div class="card-text text-light">
+    <strong>Created:</strong>
+    <%= chat.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+  </div>
+</div>

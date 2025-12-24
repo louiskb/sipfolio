@@ -1,0 +1,13 @@
+<div class="container">
+  <% content_for :title, "New chat" %>
+
+  <h1 class="my-3">New chat</h1>
+
+  <%= render "form", chat: @chat %>
+
+  <br>
+
+  <div>
+    <%= link_to "Back to chats", chats_path, class: "btn btn-outline-light rounded-2" %>
+  </div>
+</div>
