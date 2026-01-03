@@ -4,6 +4,7 @@
   <h2 class="mt-5 mb-5">User Profiles</h2>
   <p>Check out other user profiles and follow them for new cocktail recipes.</p>
   <% @profiles.each do |profile| %>
+  <!-- Display the list of users in cards -->
     <ul>
       <li>
         <%= link_to profile_path(profile) do %>

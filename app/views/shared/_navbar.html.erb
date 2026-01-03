@@ -35,6 +35,11 @@
             <% end %>
           </li>
           <li class="nav-item">
+            <%= link_to profiles_path, class: nav_link_class(profiles_path), "aria-current": (current_page?(profiles_path) ? "page" : nil) do %>
+              Connect <i class="fa-solid fa-users"></i>
+            <% end %>
+          </li>
+          <li class="nav-item">
             <%= link_to journal_path, class: nav_link_class(journal_path), "aria-current": (current_page?(journal_path) ? "page" : nil) do %>
               Journal <i class="fa-solid fa-book"></i>
             <% end %>
