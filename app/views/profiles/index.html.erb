@@ -1,12 +1,13 @@
 <!-- Where users can find other users and see their profiles, number of achievements, most recent achievement, badges, XP, levels, and the ability to follow. -->
+<%= render "index_banner" %>
 <div class="container">
-  <h1>User Profiles</h1>
+  <h2 class="mt-5 mb-5">User Profiles</h2>
   <p>Check out other user profiles and follow them for new cocktail recipes.</p>
   <% @profiles.each do |profile| %>
     <ul>
       <li>
         <%= link_to profile_path(profile) do %>
-          <p><strong><%= profile.user.username %>:</strong> <%= profile.bio %></p>
+          <p><strong><%= profile.user.username %>:</strong> <%= profile.bio || "mixologist" %></p>
         <% end %>
       </li>
     </ul>
