@@ -11,9 +11,18 @@
           <%= image_tag "happy-dog5.png", alt: "User avatar image", class: "avatar me-3" %>
           <h3 class="card-title purple-font"><%= profile.user.username %></h3>
           <!-- Follow button -->
+          <!-- If user is not followed -->
           <%= link_to "#", class: "btn btn-outline-light btn-sm rounded-4 ms-3" do %>
             <i class="fa-solid fa-user-plus"></i> Follow
           <% end %>
+          <!-- If user is already followed -->
+          <%#= link_to "#", class: "btn btn-outline-success btn-sm rounded-4 ms-3" do %>
+            <!-- <i class="fa-solid fa-user-check"></i> Following -->
+          <%# end %>
+          <!-- Unfollow button that appears when hovering over  "Following" button -->
+          <%#= link_to "#", class: "btn btn-outline-danger btn-sm rounded-4 ms-3" do %>
+            <!-- <i class="fa-solid fa-user-xmark"></i> Unfollow <%#= profile.user.username %> -->
+          <%# end %>
         </div>
         <p class="card-text text-light mt-4">
           <%= profile.bio || "Mixologist" %>
