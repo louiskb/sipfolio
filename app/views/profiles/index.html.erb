@@ -5,18 +5,21 @@
   <p class="mb-5">Check out other user profiles and follow them for new cocktail recipes.</p>
   <% @profiles.each do |profile| %>
     <!-- Display the list of users in cards -->
-    <div class="card mb-4">
+    <div class="card card-profile w-75 mb-4">
       <div class="card-body p-4">
-        <h3 class="card-title purple-font"><%= profile.user.username %></h3>
-        <p class="card-text text-light">
+        <div class="d-flex justify-content-start align-items-start">
+          <%= image_tag "happy-dog5.png", alt: "User avatar image", class: "avatar me-3" %>
+          <h3 class="card-title purple-font"><%= profile.user.username %></h3>
+          <!-- Follow button -->
+          <%= link_to "#", class: "btn btn-outline-light btn-sm rounded-4 ms-3" do %>
+            <i class="fa-solid fa-user-plus"></i> Follow
+          <% end %>
+        </div>
+        <p class="card-text text-light mt-4">
           <%= profile.bio || "Mixologist" %>
         </p>
-        <div class="d-flex justify-content-start align-items center">
-          <!-- Follow button -->
-          <%#= link_to "Follow", follows_path, class: "btn btn-outline-light rounded-4" %>
-          <!-- View Profile button -->
-          <%= link_to "View Profile", profile_path(profile), class: "btn btn-primary rounded-4" %>
-        </div>
+        <!-- View Profile button -->
+        <%= link_to "View Profile", profile_path(profile), class: "btn btn-primary rounded-4 mt-4" %>
       </div>
     </div>
   <% end %>
