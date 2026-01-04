@@ -1,30 +1,23 @@
 <!-- Where users can find other users and see their profiles, number of achievements, most recent achievement, badges, XP, levels, and the ability to follow. -->
 <%= render "index_banner" %>
 <div class="container">
-  <h2 class="mt-5 mb-5">User Profiles</h2>
-  <p>Check out other user profiles and follow them for new cocktail recipes.</p>
+  <h2 class="mt-5 mb-3">User Profiles</h2>
+  <p class="mb-5">Check out other user profiles and follow them for new cocktail recipes.</p>
   <% @profiles.each do |profile| %>
-  <!-- Display the list of users in cards -->
-  <div class="card">
-    <div class="card-body p-2">
-      <h3 class="card-title"><%= profile.user.username %></h3>
-      <p class="card-text">
-        <%= profile.bio || "Mixologist" %>
-      </p>
-      <div class="d-flex justify-content-start align-items center">
-        <!-- Follow button -->
-        <%#= link_to "Follow", follows_path, class: "btn btn-outline-light rounded-4" %>
-        <!-- View Profile button -->
-        <%= link_to "View Profile", profile_path(profile), class: "btn btn-primary rounded-4" %>
+    <!-- Display the list of users in cards -->
+    <div class="card mb-4">
+      <div class="card-body p-4">
+        <h3 class="card-title purple-font"><%= profile.user.username %></h3>
+        <p class="card-text text-light">
+          <%= profile.bio || "Mixologist" %>
+        </p>
+        <div class="d-flex justify-content-start align-items center">
+          <!-- Follow button -->
+          <%#= link_to "Follow", follows_path, class: "btn btn-outline-light rounded-4" %>
+          <!-- View Profile button -->
+          <%= link_to "View Profile", profile_path(profile), class: "btn btn-primary rounded-4" %>
+        </div>
       </div>
     </div>
-  </div>
-    <ul>
-      <li>
-        <%= link_to profile_path(profile) do %>
-          <p><strong><%= profile.user.username %>:</strong> <%= profile.bio || "mixologist" %></p>
-        <% end %>
-      </li>
-    </ul>
   <% end %>
 </div>
