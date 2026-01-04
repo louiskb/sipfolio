@@ -11,7 +11,9 @@
       <div class="card-body p-4">
         <div class="d-flex justify-content-start align-items-start">
           <%= image_tag "happy-dog5.png", alt: "User avatar image", class: "avatar me-3" %>
-          <h3 class="card-title purple-font"><%= profile.user.username %></h3>
+          <%= link_to profile_path(profile), class: "text-decoration-none" do %>
+            <h3 class="card-title purple-font"><%= profile.user.username %></h3>
+          <% end %>
           <!-- Follow button -->
           <!-- If user is not followed -->
           <%= link_to "#", class: "btn btn-outline-light btn-sm rounded-4 ms-3" do %>
@@ -20,18 +22,18 @@
           <!-- If user is already followed -->
           <%#= link_to "#", class: "btn btn-outline-success btn-sm rounded-4 ms-3" do %>
             <!-- <i class="fa-solid fa-user-check"></i> Following -->
-          <%# end %>
-          <!-- Unfollow button that appears when hovering over  "Following" button -->
-          <%#= link_to "#", class: "btn btn-outline-danger btn-sm rounded-4 ms-3" do %>
-            <!-- <i class="fa-solid fa-user-xmark"></i> Unfollow <%#= profile.user.username %> -->
-          <%# end %>
+            <%# end %>
+            <!-- Unfollow button that appears when hovering over  "Following" button -->
+            <%#= link_to "#", class: "btn btn-outline-danger btn-sm rounded-4 ms-3" do %>
+              <!-- <i class="fa-solid fa-user-xmark"></i> Unfollow <%#= profile.user.username %> -->
+              <%# end %>
+            </div>
+            <p class="card-text text-light mt-4">
+              <%= profile.bio || "Mixologist" %>
+            </p>
+            <!-- View Profile button -->
+            <%= link_to "View Profile", profile_path(profile), class: "btn btn-primary rounded-4 mt-4" %>
+          </div>
         </div>
-        <p class="card-text text-light mt-4">
-          <%= profile.bio || "Mixologist" %>
-        </p>
-        <!-- View Profile button -->
-        <%= link_to "View Profile", profile_path(profile), class: "btn btn-primary rounded-4 mt-4" %>
-      </div>
+      <% end %>
     </div>
-  <% end %>
-</div>
