@@ -3,7 +3,7 @@
   <div style="font-weight: bold; margin-bottom: 5px;">
     <%= message.role&.capitalize %>
   </div>
-  <div id="message_<%= message.id %>_content" style="white-space: pre-wrap;"><%= message.content %></div>
+  <div id="message_<%= message.id %>_content" style="white-space: pre-wrap;"><%= sanitize(render_markdown(message.content)) %></div>
   <% if message.tool_call? %>
     <%= render "messages/tool_calls", message: message %>
   <% end %>
