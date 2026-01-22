@@ -7,7 +7,8 @@
       <!-- Create cocktail form -->
       <%= simple_form_for @cocktail do |f| %>
         <%= f.input :name %>
-        <%= f.input :description, as: :text %>
+        <%= f.input :about, label: "Short description about the cocktail" %>
+        <%= f.input :description, label: "Recipe Method", hint: "Describe how to make the cocktail.", as: :text %>
 
         <!-- Create doses and associated ingredients -->
         <div class="form-group" data-controller="form-field-vis">

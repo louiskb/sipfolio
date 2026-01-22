@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resources :chats do
     resources :messages, only: [:create]
   end
-  
+
   resources :models, only: [:index, :show] do
     collection do
       post :refresh
@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     resources :tags, only: [:new, :create, :destroy], shallow: true
     resources :user_reviews, only: [:new, :create, :destroy]
     resource :favorite, only: [:create, :destroy]
+    resources :chats, only: [:create]
   end
 
   resources :ingredients, only: [:new, :create]

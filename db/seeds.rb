@@ -1,3 +1,6 @@
+require 'faker'
+require 'set'
+
 puts "Cleaning the Database..."
 
 Favorite.destroy_all if defined?(Favorite)
@@ -9,9 +12,6 @@ Ingredient.destroy_all
 User.destroy_all
 
 puts "Database cleaned!"
-
-require 'faker'
-require 'set'
 
 # ---------- USERS ----------
 puts "Creating users..."
@@ -70,6 +70,22 @@ users.each do |user|
     next if used_cocktail_names.include?(name)
     used_cocktail_names << name
 
+    # Create a short description about the cocktail.
+    short_descriptions = [
+      "A light, refreshing citrus drink with a subtle herbal finish.",
+      "A bold, spirit-forward cocktail with warm notes of spice and oak.",
+      "A crisp, bubbly concoction with bright berry aromas and a dry finish.",
+      "A smooth, tropical blend with creamy texture and hints of coconut.",
+      "A tart, zesty drink balanced by gentle sweetness and floral notes.",
+      "A smoky, complex sipper with bittersweet undertones and lingering heat.",
+      "A delicately sweet, tea-infused cocktail with soft citrus accents.",
+      "A refreshing, garden-inspired mix with cucumber, herbs, and a clean finish.",
+      "A rich, dessert-like drink with chocolate, coffee, and vanilla hints.",
+      "A vibrant, fruity cocktail with a punchy aroma and a dry, crisp bite."
+    ]
+
+    about = short_descriptions.sample.capitalize
+
     # Create a realistic cocktail-style recipe description
     methods = [
       "Shake all ingredients with ice and strain into a chilled coupe glass.",
@@ -86,6 +102,7 @@ users.each do |user|
     cocktail = Cocktail.create!(
       user: user,
       name: name,
+      about: about,
       description: description
     )
 

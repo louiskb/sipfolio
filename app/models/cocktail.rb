@@ -9,7 +9,7 @@ class Cocktail < ApplicationRecord
   has_many :tags, dependent: :destroy # creates a method cocktail.tags
   has_many :user_reviews, dependent: :destroy # creates a method cocktail.user_reviews
   has_many :chats
-  
+
   accepts_nested_attributes_for :doses, allow_destroy: true, reject_if: :all_blank
   accepts_nested_attributes_for :tags, allow_destroy: true, reject_if: :all_blank
   # accepts_nested_attributes_for :tags, allow_destroy: true, reject_if: proc { |attributes| attributes["name"].blank? }
@@ -18,7 +18,8 @@ class Cocktail < ApplicationRecord
   #validations
   validates :user_id, presence: true
   validates :name, presence: true, uniqueness: true
-  validates :description, presence: true
+  validates :about, presence: true # Short description about the cocktail.
+  validates :description, presence: true # Recipe method.
   validate :max_doses_limit
   validate :max_tags_limit
 
