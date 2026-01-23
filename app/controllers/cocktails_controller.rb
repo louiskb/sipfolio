@@ -150,11 +150,12 @@ class CocktailsController < ApplicationController
         ingredient: ingredient,
         amount: ingredient_data["amount"]
       )
+    end
 
       # Loop through AI-generated tags
       data["tags"].each do |tag_name|
         #build method creates tag in memory, linked to cocktail.
-        cocktails.tags.build(name: tag_name.downcase)
+        cocktail.tags.build(name: tag_name.downcase)
       end
 
       # Save cocktail with all associations in one database transaction.
