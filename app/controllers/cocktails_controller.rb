@@ -23,7 +23,7 @@ class CocktailsController < ApplicationController
       @cocktail = create_cocktail_from_ai_data(cocktail_data)
 
       if @cocktail.persisted?
-        redirect_to @cocktail, notice: "🍹 SipSense AI created your cocktail!"
+        redirect_to @cocktail, notice: "SipSense AI created your cocktail!"
       else
         flash.now[:alert] = "Failed to create cocktail: #{@cocktail.errors.full_messages.join(', ')}"
         @prompt = user_prompt # Preserve user input
