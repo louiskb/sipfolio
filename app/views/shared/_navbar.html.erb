@@ -23,7 +23,7 @@
             <% end %>
           </li>
           <li class="nav-item">
-            <%= link_to sipsense_mix_cocktails_path class: nav_link_class(), "aria-current": (current_page?(sipsense_mix_cocktails_path) ? "page" : nil) do %>
+            <%= link_to sipsense_mix_cocktails_path class: nav_link_class(sipsense_mix_cocktails_path), "aria-current": (current_page?(sipsense_mix_cocktails_path) ? "page" : nil) do %>
               SipSense Mix <i class="fa-solid fa-wand-magic-sparkles"></i>
             <% end %>
           </li>
