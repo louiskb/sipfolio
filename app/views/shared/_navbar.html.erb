@@ -23,13 +23,11 @@
             <% end %>
           </li>
           <li class="nav-item">
-            <!-- Add the appropriate links (X2 - replacing "#" twice) to navbar later once AI "cocktail creation" feature is built -->
-            <%= link_to "#", class: nav_link_class(), "aria-current": (current_page?("#") ? "page" : nil) do %>
+            <%= link_to sipsense_mix_cocktails class: nav_link_class(), "aria-current": (current_page?(sipsense_mix_cocktails) ? "page" : nil) do %>
               SipSense Mix <i class="fa-solid fa-wand-magic-sparkles"></i>
             <% end %>
           </li>
           <li class="nav-item">
-            <!-- Add the appropriate links (x2 - replacing "#" twice) to navbar later once AI "chat" feature is built -->
             <%= link_to chats_path, class: nav_link_class(chats_path), "aria-current": (current_page?(chats_path) ? "page" : nil) do %>
               SipSense AI <i class="fa-solid fa-comment-dots"></i>
             <% end %>
