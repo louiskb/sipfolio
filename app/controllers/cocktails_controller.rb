@@ -164,7 +164,6 @@ class CocktailsController < ApplicationController
 
       # Return the cocktail object.
       cocktail
-    end
   end
 
   def cocktail_params
