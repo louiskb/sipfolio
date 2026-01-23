@@ -4,13 +4,14 @@ class CocktailsController < ApplicationController
 
   def sipsense_mix
     # Renders the form view.
+    authorize Cocktail, :create_with_ai?
   end
 
   def create_with_ai
+    authorize Cocktail, :create_with_ai?
     user_prompt = cocktail_ai_params[:prompt]
 
     begin # Start error handling block
-
       # Initialize chat with schema and instructions
       chat = RubyLLM.chat(model: 'gpt-4.1-nano').with_schema(CocktailSchema).with_instructions(context_prompt)
 
@@ -24,16 +25,16 @@ class CocktailsController < ApplicationController
       if @cocktail.persisted?
         redirect_to @cocktail, notice: "🍹 SipSense AI created your cocktail!"
       else
-        flash.now[:alert] = "Failed to create cocktail: #{@cocktail.error.full_messages.join(', ')}"
+        flash.now[:alert] = "Failed to create cocktail: #{@cocktail.errors.full_messages.join(', ')}"
         @prompt = user_prompt # Preserve user input
-        render :sipsense_mix, status: :unprocessable_entity
+        render :sipsense_mix, status: :unprocessable_content
       end
 
     rescue StandardError => e # Catch any errors (API failures, network issues, etc.)
       Rails.logger.error "AI cocktail creation failed: #{e.message}"
       Rails.logger.error "AI encountered an error. Please try again."
       @prompt = user_prompt
-      render :sipsense_mix, status: :unprocessable_entity
+      render :sipsense_mix, status: :unprocessable_content
     end # End error handling block
   end
 
@@ -134,6 +135,7 @@ class CocktailsController < ApplicationController
     # build method creates cocktail in memory with user association automatically set.
     cocktail = current_user.cocktails.build(
       name: data["name"],
+      about: data["about"],
       description: data["description"]
     )
 

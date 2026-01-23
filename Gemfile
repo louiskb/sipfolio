@@ -80,5 +80,6 @@ gem "faker"
 gem "pundit"
 
 gem "ruby_llm"
+gem "ruby_llm-schema"
 
 gem "redcarpet"

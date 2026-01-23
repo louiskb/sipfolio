@@ -1,3 +1,5 @@
+require "ruby_llm/schema"
+
 class CocktailSchema < RubyLLM::Schema
   # Basic cocktail info.
   string :name,
@@ -16,7 +18,7 @@ class CocktailSchema < RubyLLM::Schema
           string :ingredient_name,
           description: "Name of the ingredient (e.g. 'Vodka', 'Lime Juice', 'Syrup')"
 
-          float :amount,
+          number :amount,
             description: "Amount in ml. Can use decimals like 1.5, 2.0, 0.5, 0.25"
       end
     end

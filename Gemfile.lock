@@ -377,6 +377,7 @@ DEPENDENCIES
   rails (~> 7.1.5, >= 7.1.5.2)
   redcarpet
   ruby_llm
+  ruby_llm-schema
   sassc-rails
   selenium-webdriver
   simple_form!
