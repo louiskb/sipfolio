@@ -23,6 +23,10 @@ Rails.application.routes.draw do
     resources :user_reviews, only: [:new, :create, :destroy]
     resource :favorite, only: [:create, :destroy]
     resources :chats, only: [:create]
+    collection do
+      get "sipsense_mix" # Form page - GET /cocktails/sipsense_mix
+      post "create_with_ai" # Creates cocktail - POST /cocktails/create_with_ai
+    end
   end
 
   resources :ingredients, only: [:new, :create]
