@@ -9,6 +9,16 @@ class CocktailPolicy < ApplicationPolicy
     true
   end
 
+  def sipsense_revise? # Access to the AI revision form.
+    return true if user.admin?
+    record.user == user
+  end
+
+  def revise_with_ai? # Access to the AI revision process.
+    return true if user.admin?
+    record.user == user
+  end
+
   def show?
     true
   end
