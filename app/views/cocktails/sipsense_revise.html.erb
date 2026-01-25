@@ -1,0 +1,40 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="text-center mb-4">
+        <h1 class="display-4 mb-2">Revise with SipSense AI</h1>
+        <p>Let AI Help you improve "<%= @cocktail.name %>"</p>
+      </div>
+      <!-- Current cocktail info -->
+      <div class="card mb-4 bg-dark">
+        <div class="card-body">
+          <h5 class="card-title">Current Recipe</h5>
+          <p><strong>Name:</strong> <%= @cocktail.name %></p>
+          <p><strong>Short Description:</strong> <%= @cocktail.about %></p>
+          <p><strong>Recipe Method:</strong> <%= @cocktail.description %></p>
+          <p><strong>Ingredients:</strong></p>
+          <ul class="mb-0">
+            <% @cocktail.doses.each do |dose| %>
+              <li>
+                <%= dose.amount %>ml <%= dose.ingredient.name %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+      <!-- Revision form -->
+      <div class="card shadow-lg border-0">
+        <div class="card-body p-4">
+          <%= simple_form_for :cocktail, url: revise_with_ai_cocktail_path(@cocktail), method: :patch, html: { class: "sipsense-revision-form" } do |f| %>
+            <%= f.input :prompt, label: "How would you like to revise this cocktail?", as: :text,
+            input_html: { rows: 6, placeholder: "Examples:\n\n• Make it less sweet\n• Add a smoky element\n• Replace vodka with gin\n• Make it more tropical\n• Increase the alcohol content\n• Add a citrus twist", value: @prompt }, hint: "Be specific about what you want to change", wrapper_html: { class: "mb-4"}, required: true %>
+            <div class="d-flex gap-3 flex-wrap">
+              <%= f.submit "Revise Cocktail", class: "btn btn-primary btn-lg flex-grow-1", data: { disable_with: "SipSense AI is revising..." } %>
+              <%= link_to "Back to Cocktail", @cocktail, class: "btn btn-outline-secondary btn-lg" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
