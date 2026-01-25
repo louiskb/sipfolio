@@ -2,39 +2,57 @@ class CocktailsController < ApplicationController
   after_action :verify_authorized, except: :index, unless: :skip_pundit?
   after_action :verify_policy_scoped, only: :index, unless: :skip_pundit?
 
+  # CREATE WITH AI
   def sipsense_mix
-    # Renders the form view.
+    # Renders the create form view.
     authorize Cocktail, :create_with_ai?
   end
 
   def create_with_ai
+    # Create a cocktail with ai process / logic.
     authorize Cocktail, :create_with_ai?
-    user_prompt = cocktail_ai_params[:prompt]
 
     begin # Start error handling block
-      # Initialize chat with schema and instructions
-      chat = RubyLLM.chat(model: 'gpt-4.1-nano').with_schema(CocktailSchema).with_instructions(context_prompt)
+      service = CocktailAiService.new(current_user)
+      @cocktail = service.create_from_prompt(cocktail_ai_params[:prompt])
 
-      # Get AI response
-      response = chat.ask(user_prompt)
-      cocktail_data = response.content
-
-      # Create cocktail with nested associations
-      @cocktail = create_cocktail_from_ai_data(cocktail_data)
 
       if @cocktail.persisted?
         redirect_to @cocktail, notice: "SipSense AI created your cocktail!"
       else
-        flash.now[:alert] = "Failed to create cocktail: #{@cocktail.errors.full_messages.join(', ')}"
-        @prompt = user_prompt # Preserve user input
+        flash.now[:alert] = "Failed #{@cocktail.errors.full_messages.join(', ')}"
+        @prompt = cocktail_ai_params[:prompt] # Preserve user input
         render :sipsense_mix, status: :unprocessable_content
       end
 
     rescue StandardError => e # Catch any errors (API failures, network issues, etc.)
-      Rails.logger.error "AI cocktail creation failed: #{e.message}"
-      Rails.logger.error "AI encountered an error. Please try again."
-      @prompt = user_prompt
-      render :sipsense_mix, status: :unprocessable_content
+      handle_ai_error(e, :sipsense_mix)
+    end # End error handling block
+  end
+
+  # REVISE WITH AI
+  def sipsense_revise
+    # Renders the revise form view.
+    authorize @cocktail, :sipsense_revise?
+  end
+
+  def revise_with_ai
+    # Revise a cocktail with ai process / logic.
+    authorize @cocktail, :revise_with_ai?
+
+    begin
+      service = CocktailAiService.new(current_user)
+      @cocktail = service.revise_cocktail(@cocktail, cocktail_ai_params[:prompt])
+
+      if @cocktail.persisted?
+        redirect_to @cocktail, notice: "SipSense AI revised your cocktail!"
+      else
+        flash.now[:alert] = "Failed: #{@cocktail.errors.full_messages.join(', ')}"
+        @prompt = cocktail_ai_params[:prompt] # Preserve user input
+        render :sipsense_revise, status: :unprocessable_content
+      end
+    rescue StandardError => e # Catch any errors (API failures, network issues, etc.)
+      handle_ai_error(e, :sipsense_revise)
     end # End error handling block
   end
 
@@ -67,7 +85,6 @@ class CocktailsController < ApplicationController
   end
 
   def create
-    # raise
     @cocktail = Cocktail.new(cocktail_params)
     @cocktail.user = current_user
     authorize @cocktail
@@ -112,62 +129,6 @@ class CocktailsController < ApplicationController
     params.require(:cocktail).permit(:prompt)
   end
 
-  def context_prompt
-    <<~PROMPT
-      Persona: You are SipSense AI, an expert mixologist with 20 years of experience crafting innovation and classic cocktails. You understand flavor profiles, balance, and proper mixology techniques.
-
-      Context: You're helping users of Sipfolio, a cocktail portfolio app for enthusiasts and professionals. The recipes you create will be saved to their personal collection and potentially shared with the community. Your audience ranges from home bartenders to professional mixologists.
-
-      Task: based ont he user's description, create a complete, well-balanced cocktail recipe. The recipe must be practical, delicious, and follow proper mixology principles. Ensure measurements are precise in ml and instructions are clear.
-
-      Guidelines:
-      - Measurements must be in millimeters (ml) as decimal numbers (e.g. 1.5, 2.0, 0.5, 0.25)
-      - Maximum 5 ingredients (respects the cocktail validation)
-      - Use standard bar ingredients unless user specifically requests exotic items.
-      - Create balanced flavor profiles (consider sweet, sour, bitter, strong elements).
-      - Include 3-10 relevant tags for categorization (under the 10 tag limit).
-      - Be creative with names but keep them memorable and appealing.
-      - If the user's request is vague, use your expertise to create something exceptional.
-    PROMPT
-  end
-
-  def create_cocktail_from_ai_data(data)
-    # build method creates cocktail in memory with user association automatically set.
-    cocktail = current_user.cocktails.build(
-      name: data["name"],
-      about: data["about"],
-      description: data["description"]
-    )
-
-    # Loop through AI-generated ingredients
-    data["ingredients"].each do |ingredient_data|
-      # Find existing ingredient or create new one (prevents duplicates)
-      # titleize ensures consistent capitalization: "lime juice" -> "Lime Juice"
-      ingredient = Ingredient.find_or_create_by(
-        name: ingredient_data["ingredient_name"].titleize
-      )
-
-      # Build method creates dose in memory, linked to cocktail and ingredient.
-      cocktail.doses.build(
-        ingredient: ingredient,
-        amount: ingredient_data["amount"]
-      )
-    end
-
-      # Loop through AI-generated tags
-      data["tags"].each do |tag_name|
-        # build method creates tag in memory, linked to cocktail.
-        cocktail.tags.build(name: tag_name.downcase)
-      end
-
-      # Save cocktail with all associations in one database transaction.
-      # If any validation fails, nothing gets saved (maintains data integrity).
-      cocktail.save
-
-      # Return the cocktail object.
-      cocktail
-  end
-
   def cocktail_params
     params.require(:cocktail).permit(:name, :about, :description, doses_attributes: [:id, :amount, :ingredient_id, { ingredient_attributes: [:id, :name] }, :_destroy], tags_attributes: [:id, :name, :_destroy])
   end
@@ -185,5 +146,4 @@ class CocktailsController < ApplicationController
       0
     end
   end
-
 end
