@@ -91,7 +91,17 @@
                     <p class="text-light">(<%= reviews %>)</p>
                   <% end %>
                 </div>
-                <p class="dark-grey-font small">Created by <span class="fst-italic text-light"><%= cocktail.user.username %></span></p>
+                <p class="dark-grey-font small">
+                  <% if cocktail.ai_generated && cocktail.user == current_user %>
+                    Created by <span class="text-light fst-italic">You</span> with <span class="brand-font">SipSense AI <i class="fa-solid fa-robot"></i></span>
+                  <% elsif cocktail.ai_generated %>
+                    Created by <span class="text-light fst-italic"><%= cocktail.user.username %></span> with <span class="brand-font">SipSense AI <i class="fa-solid fa-robot"></i></span>
+                  <% elsif cocktail.user == current_user %>
+                    Created by <span class="text-light fst-italic">You</span>
+                  <% else %>
+                    Created by <span class="text-light fst-italic"><%= cocktail.user.username %></span>
+                  <% end %>
+                </p>
               </div>
             </div>
           </div>

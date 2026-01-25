@@ -1,34 +1,34 @@
-<div class="container">
+<div class="container mt-5">
   <div class="row justify-content-center">
-    <div class="col-lg-8 col-md-10">
+    <div class="col-lg-8">
       <!-- Header -->
       <div class="text-center mb-4">
         <h1 class="display-4 mb-2">SipSense Mix</h1>
         <p>Let AI craft your perfect cocktail</p>
       </div>
-      <!-- Main Form Card -->
-      <div class="card shadow-lg border-0">
-        <div class="card-body p-4">
-          <%= simple_form_for :cocktail, url: create_with_ai_cocktails_path, method: :post, html: { class: 'sipsense-form' } do |f| %>
-            <!-- `value: @prompt` preserves input on error -->
-            <%= f.input :prompt, label: "Describe your ideal cocktail", as: :text, input_html: { rows: 6, placeholder: "Be as creative as you'd like! Examples:\n\n• A refreshing summer gin cocktail with cucumber and mint\n• Something spicy with tequila and jalapeno, not too sweet\n• A tropical rum drunk that's dark and stormy\n• A warm cozy cocktail perfect for winter evenings\n• Surprise me with something using whiskey and citrus", value: @prompt }, hint: "The more specific you are, the better the result!", wrapper_html: { class: 'mb-4'}, require: true %>
-            <div class="d-flex gap-3 flex-wrap">
-              <%= f.submit "Generate Cocktail", class: "btn btn-primary btn-lg flex-grow-1", data: { disable_with: "SipSense AI is mixing..." } %>
-              <%= link_to "Create Manually Instead", new_cocktail_path, class: "btn btn-outline-light btn-lg" %>
-            </div>
-          <% end %>
-        </div>
-      </div>
       <!-- Info Card -->
-      <div class="card mt-4 bg-light border-0">
+      <div class="card my-4 bg-dark text-light rounded-4">
         <div class="card-body">
           <h6 class="card-title">How it works:</h6>
-          <ol class="mb-0 small">
+          <ol class="mb-0">
             <li>Describe the cocktail you want (flavors, spirits, mood, occasion).</li>
             <li>SipSense AI creates a complete recipe with ingredients and measurements.</li>
             <li>The cocktail is saved to your portfolio just like manual creations.</li>
             <!-- <li>Share it with the community or keep it private!</li> -->
           </ol>
+        </div>
+      </div>
+      <!-- Main Form Card -->
+      <div class="card bg-dark shadow-lg mb-4 rounded-4">
+        <div class="card-body p-4">
+          <%= simple_form_for :cocktail, url: create_with_ai_cocktails_path, method: :post, html: { class: "sipsense-form form-text-label" } do |f| %>
+            <!-- `value: @prompt` preserves input on error -->
+            <%= f.input :prompt, label: "Describe your ideal cocktail", as: :text, input_html: { rows: 8, placeholder: "Be as creative as you'd like! Examples:\n\n• A refreshing summer gin cocktail with cucumber and mint\n• Something spicy with tequila and jalapeno, not too sweet\n• A tropical rum drunk that's dark and stormy\n• A warm cozy cocktail perfect for winter evenings\n• Surprise me with something using whiskey and citrus", value: @prompt }, hint: "The more specific you are, the better the result!", wrapper_html: { class: 'mb-4'}, require: true %>
+            <div class="d-flex gap-3 flex-wrap">
+              <%= f.submit "Generate Cocktail", class: "btn btn-primary btn-lg flex-grow-1", data: { disable_with: "SipSense AI is mixing..." } %>
+              <%= link_to "Create Manually Instead", new_cocktail_path, class: "btn btn-outline-light btn-lg" %>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>

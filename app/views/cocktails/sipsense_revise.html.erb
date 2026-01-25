@@ -6,7 +6,7 @@
         <p>Let AI Help you improve "<%= @cocktail.name %>" cocktail</p>
       </div>
       <!-- Current cocktail info -->
-      <div class="card mb-4 bg-dark text-light">
+      <div class="card mb-4 bg-dark text-light rounded-4">
         <div class="card-body">
           <h5 class="card-title">Current Recipe</h5>
           <p><strong>Name:</strong> <%= @cocktail.name %></p>
@@ -23,7 +23,7 @@
         </div>
       </div>
       <!-- Revision form -->
-      <div class="card bg-dark shadow-lg border-0">
+      <div class="card bg-dark shadow-lg rounded-4">
         <div class="card-body p-4">
           <%= simple_form_for :cocktail, url: revise_with_ai_cocktail_path(@cocktail), method: :patch, html: { class: "sipsense-revision-form form-text-label" } do |f| %>
             <%= f.input :prompt, label: "How would you like to revise this cocktail?", as: :text,
