@@ -24,7 +24,7 @@ class CocktailAiService
 
   private
 
-  # SipSense Mix AI cocktail CREATION functions and logic.
+  # SipSense Mix AI cocktail CREATION methods and logic.
   def build_chat_for_creation
     RubyLLM.chat(model: @model).with_schema(CocktailSchema).with_instructions(creation_prompt)
   end
@@ -81,7 +81,7 @@ class CocktailAiService
     cocktail
   end
 
-  # SipSense Mix AI cocktail REVISION functions and logic.
+  # SipSense Mix AI cocktail REVISION methods and logic.
   def build_chat_for_revision(cocktail)
     RubyLLM.chat(model: @model).with_schema(CocktailSchema).with_instructions(revision_prompt(cocktail))
   end

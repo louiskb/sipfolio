@@ -1,6 +1,7 @@
 class CocktailsController < ApplicationController
   after_action :verify_authorized, except: :index, unless: :skip_pundit?
   after_action :verify_policy_scoped, only: :index, unless: :skip_pundit?
+  before_action :set_cocktail, only: [:sipsense_revise, :revise_with_ai]
 
   # CREATE WITH AI
   def sipsense_mix
@@ -21,7 +22,7 @@ class CocktailsController < ApplicationController
         redirect_to @cocktail, notice: "SipSense AI created your cocktail!"
       else
         flash.now[:alert] = "Failed #{@cocktail.errors.full_messages.join(', ')}"
-        @prompt = cocktail_ai_params[:prompt] # Preserve user input
+        @prompt = cocktail_ai_params[:prompt] # Preserve user input. cocktail_ai_params is a method call that returns a hash `Returns: { prompt: "..." }` and the hash keys are accessed using square brackets like so `cocktail_ai_params[:prompt]`. cocktail_ai_params does not accept any arguments either.
         render :sipsense_mix, status: :unprocessable_content
       end
 
@@ -48,7 +49,7 @@ class CocktailsController < ApplicationController
         redirect_to @cocktail, notice: "SipSense AI revised your cocktail!"
       else
         flash.now[:alert] = "Failed: #{@cocktail.errors.full_messages.join(', ')}"
-        @prompt = cocktail_ai_params[:prompt] # Preserve user input
+        @prompt = cocktail_ai_params[:prompt] # Preserve user input. cocktail_ai_params is a method call that returns a hash `Returns: { prompt: "..." }` and the hash keys are accessed using square brackets like so `cocktail_ai_params[:prompt]`. cocktail_ai_params does not accept any arguments either.
         render :sipsense_revise, status: :unprocessable_content
       end
     rescue StandardError => e # Catch any errors (API failures, network issues, etc.)
@@ -125,10 +126,24 @@ class CocktailsController < ApplicationController
 
   private
 
+  # AI Creation and Revise methods
+  def set_cocktail
+    @cocktail = Cocktail.find(params[:id])
+  end
+
   def cocktail_ai_params
     params.require(:cocktail).permit(:prompt)
   end
 
+  def handle_ai_error(error, render_action)
+    Rails.logger.error "AI error: #{error.message}"
+    Rails.logger.error error.backtrace.join("\n")
+    flash.now[:alert] = "AI encountered an error. Please try again."
+    @prompt = cocktail_ai_params[:prompt]
+    render render_action, status: :unprocessable_content
+  end
+
+  # Non-AI methods
   def cocktail_params
     params.require(:cocktail).permit(:name, :about, :description, doses_attributes: [:id, :amount, :ingredient_id, { ingredient_attributes: [:id, :name] }, :_destroy], tags_attributes: [:id, :name, :_destroy])
   end
