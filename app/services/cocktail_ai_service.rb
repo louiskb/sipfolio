@@ -65,7 +65,7 @@ class CocktailAiService
       )
 
       # Build method creates dose in memory, linked to cocktail and ingredient.
-      cocktail.dose.build(ingredient: ingredient, amount: ingredient_data["amount"])
+      cocktail.doses.build(ingredient: ingredient, amount: ingredient_data["amount"])
     end
 
     # Loop through AI-generated tags
@@ -91,7 +91,7 @@ class CocktailAiService
       "#{dose.amount}ml #{dose.ingredient.name}"
     end.join(", ")
 
-    current_tags = cocktail.tags.puck(:name).join(", ")
+    current_tags = cocktail.tags.pluck(:name).join(", ")
 
     <<~PROMPT
       Persona: You are SipSense AI, an expert mixologist with 20 years of experience crafting innovation and classic cocktails. You understand flavor profiles, balance, and proper mixology techniques.
@@ -137,7 +137,7 @@ class CocktailAiService
       )
 
       # Build method creates dose in memory, linked to cocktail and ingredient.
-      cocktail.dose.build(ingredient: ingredient, amount: ingredient_data["amount"])
+      cocktail.doses.build(ingredient: ingredient, amount: ingredient_data["amount"])
     end
 
     # Loop through AI-generated tags
