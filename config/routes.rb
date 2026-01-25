@@ -27,6 +27,10 @@ Rails.application.routes.draw do
       get "sipsense_mix" # Form page - GET /cocktails/sipsense_mix
       post "create_with_ai" # Creates cocktail - POST /cocktails/create_with_ai
     end
+    member do # Member routes need :id
+      get "sipsense_revise" # Shows revision form
+      patch "revise_with_ai" # Processes AI revision
+    end
   end
 
   resources :ingredients, only: [:new, :create]
