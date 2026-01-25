@@ -73,9 +73,14 @@
           </p>
         </div>
         <!-- Edit and delete buttons -->
-        <div class="d-flex justify-content-start align-items-center gap-3">
+        <div class="d-flex justify-content-start align-items-center gap-4">
+          <% if policy(@cocktail).sipsense_revise? %>
+            <%= link_to sipsense_revise_cocktail_path(@cocktail), class: "btn btn-primary btn-lg" do %>
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Revise with AI
+            <% end %>
+          <% end %>
           <% if policy(@cocktail).edit? %>
-            <%= link_to "Edit", edit_cocktail_path(@cocktail), class: "btn btn-primary btn-lg me-2" %>
+            <%= link_to "Edit", edit_cocktail_path(@cocktail), class: "btn btn-outline-primary btn-lg" %>
           <% end %>
           <% if policy(@cocktail).destroy? %>
             <%= link_to cocktail_path(@cocktail), data: { turbo_method: :delete, turbo_confirm: "Delete cocktail ?" } do %>
