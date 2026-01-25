@@ -61,7 +61,15 @@
         <div class="mb-3">
           <p class="dark-grey-font">
             <i class="fa-regular fa-user me-2"></i>
-            <% if @cocktail.user == current_user %>
+            <% if @cocktail.ai_generated && @cocktail.user == current_user %>
+              Created by <span class="text-light fst-italic">You</span> with <span class="brand-font"><%= link_to sipsense_mix_cocktails_path do %> SipSense AI <i class="fa-solid fa-robot"></i></span><% end %>
+              <i class="fa-regular fa-calendar ms-3 me-2"></i>
+              <%= @cocktail.created_at.strftime("%B %d, %Y") %>
+            <% elsif @cocktail.ai_generated %>
+              Created by <span class="text-light fst-italic"><%= @cocktail.user.username %></span> with <span class="brand-font"><%= link_to sipsense_mix_cocktails_path do %> SipSense AI <i class="fa-solid fa-robot"></i></span><% end %>
+              <i class="fa-regular fa-calendar ms-3 me-2"></i>
+              <%= @cocktail.created_at.strftime("%B %d, %Y") %>
+            <% elsif @cocktail.user == current_user %>
               Created by <span class="text-light fst-italic">You</span>
               <i class="fa-regular fa-calendar ms-3 me-2"></i>
               <%= @cocktail.created_at.strftime("%B %d, %Y") %>

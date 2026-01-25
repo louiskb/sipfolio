@@ -74,6 +74,8 @@ class CocktailAiService
       cocktail.tags.build(name: tag_name.downcase)
     end
 
+    cocktail.ai_generated = true
+
     # Save cocktail with all associations in one database transaction.
     # If any validation fails, nothing gets saved (maintains data integrity).
     cocktail.save
@@ -145,6 +147,8 @@ class CocktailAiService
       # build method creates tag in memory, linked to cocktail.
       cocktail.tags.build(name: tag_name.downcase)
     end
+
+    cocktail.ai_generated = true
 
     # Save cocktail with all associations in one database transaction.
     # If any validation fails, nothing gets saved (maintains data integrity).

@@ -27,4 +27,8 @@ class CocktailSchema < RubyLLM::Schema
   array :tags,
     of: :string,
     description: "3-5 descriptive tags (e.g. 'sweet', 'refreshing', 'citrus', 'strong', 'tropical', 'classical')"
+
+  # Mark this cocktail as ai_generated
+  # boolean :ai_generated,
+  #   description: "Mark this AI generated cocktail = true"
 end
