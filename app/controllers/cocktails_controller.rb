@@ -156,7 +156,7 @@ class CocktailsController < ApplicationController
 
       # Loop through AI-generated tags
       data["tags"].each do |tag_name|
-        #build method creates tag in memory, linked to cocktail.
+        # build method creates tag in memory, linked to cocktail.
         cocktail.tags.build(name: tag_name.downcase)
       end
 
