@@ -66,6 +66,7 @@ class CocktailsController < ApplicationController
     @tags = Tag.all
     @user_reviews = UserReview.all
     @cocktail_favs = current_user.favorited_cocktails
+    @hero_banner = hero_banner_list
   end
 
   def show
@@ -83,6 +84,7 @@ class CocktailsController < ApplicationController
     @cocktail = Cocktail.new
     5.times { @cocktail.doses.build.build_ingredient } # builds both dose and nested ingredient
     10.times { @cocktail.tags.build }
+    @hero_banner = hero_banner_list
     authorize @cocktail
   end
 
@@ -100,6 +102,7 @@ class CocktailsController < ApplicationController
 
   def edit
     @cocktail = Cocktail.find(params[:id])
+    @hero_banner = hero_banner_list
     authorize @cocktail
   end
 
@@ -151,6 +154,10 @@ class CocktailsController < ApplicationController
 
   def create_img_list
     (1..26).map { |i| "cocktail-#{i}.jpg" }
+  end
+
+  def hero_banner_list
+    ["cocktail-banner-3.jpg", "cocktail-banner-9.jpg", "cocktail-banner-10.jpg", "cocktails-banner-1.jpg", "cocktails-banner-1.jpg", "cocktails-banner-2.jpg", "cocktails-banner-4.jpg", "cocktails-banner-5.jpg", "cocktails-banner-7.jpg", "cocktails-banner-8.jpg", "cocktails-banner-9.jpg"]
   end
 
   def show_cocktail_ratings(user_reviews, cocktail)

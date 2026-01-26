@@ -1,13 +1,20 @@
+<%= render "user_profile_banner", hero_banner: @hero_banner, user: @user %>
 <div class="container">
-  <h1 class="mt-5"><%= @user.first_name.capitalize %>'s Profile </h1>
-  <h2 class="my-4">Account Information</h2>
-  <% if @user.admin == true %>
-    <p class="dark-grey-font">Admin</p>
-  <% end %>
-  <p><span class="purple-font">Name:</span> <%= @user.first_name %></p>
-  <p><span class="purple-font">Username:</span> <%= @user.username %></p>
-  <p><span class="purple-font">Email:</span> <%= @user.email %></p>
-  <%= link_to "Edit", edit_user_registration_path, class: "btn btn-primary mt-3 mb-2" %>
-  <h4 class="mt-4 mb-3 pink-font">Account Stats</h4>
-  <p class="mb-1"><span class="purple-font">Cocktail Recipes Created:</span> <%= @cocktails.count %></p>
+  <h2 class="my-4 mt-5">Account</h2>
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <h4 class="mt-4 mb-3 pink-font">General Information</h4>
+      <% if @user.admin == true %>
+        <p class="dark-grey-font">Admin</p>
+      <% end %>
+      <p><span class="purple-font">Name:</span> <%= @user.first_name %></p>
+      <p><span class="purple-font">Username:</span> <%= @user.username %></p>
+      <p><span class="purple-font">Email:</span> <%= @user.email %></p>
+      <%= link_to "Edit", edit_user_registration_path, class: "btn btn-primary mt-3 mb-2" %>
+    </div>
+    <div class="col-12 col-md-6">
+      <h4 class="mt-4 mb-3 pink-font">Account Stats</h4>
+      <p class="mb-1"><span class="purple-font">Cocktail Recipes Created:</span> <%= @cocktails.count %></p>
+    </div>
+  </div>
 </div>
