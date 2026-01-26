@@ -14,5 +14,12 @@ class PagesController < ApplicationController
     @cocktails = @user.cocktails
     @cocktail_favs = @user.favorited_cocktails
     @user_reviews = UserReview.all
+    @cocktail_img_list = create_img_list
+  end
+
+  private
+
+  def create_img_list
+    (1..26).map { |i| "cocktail-#{i}.jpg" }
   end
 end

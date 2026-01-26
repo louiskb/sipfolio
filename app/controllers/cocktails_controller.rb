@@ -75,6 +75,7 @@ class CocktailsController < ApplicationController
     @tags = @cocktail.tags
     @user_reviews = @cocktail.user_reviews
     @cocktail_rating_avg = show_cocktail_ratings(@user_reviews, @cocktail)
+    @cocktail_img_list = create_img_list
     authorize @cocktail # Another way to write this is authorize(@cocktail) but Ruby syntax allows the omission of parentheses () after the method call (#authorize) when the meaning is clear. It is common in Rails code to write the version without parentheses for readability.
   end
 
@@ -146,6 +147,10 @@ class CocktailsController < ApplicationController
   # Non-AI methods
   def cocktail_params
     params.require(:cocktail).permit(:name, :about, :description, doses_attributes: [:id, :amount, :ingredient_id, { ingredient_attributes: [:id, :name] }, :_destroy], tags_attributes: [:id, :name, :_destroy])
+  end
+
+  def create_img_list
+    (1..26).map { |i| "cocktail-#{i}.jpg" }
   end
 
   def show_cocktail_ratings(user_reviews, cocktail)
