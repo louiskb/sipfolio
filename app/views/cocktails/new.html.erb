@@ -11,6 +11,10 @@
         <%= f.input :description, label: "Recipe Method", hint: "Describe how to make the cocktail.", as: :text %>
         <%= f.input :img_url, collection: Cocktail::COCKTAIL_IMAGES, prompt: "Select a cocktail image" %>
 
+        <div>
+         <%= image_tag "cocktail-1.jpg", alt: "Cocktail drink", class: " border border-light border-5 rounded-4 w-50 shadow-sm mt-3 mh-img-form" %>
+        </div>
+
         <!-- Create doses and associated ingredients -->
         <div class="form-group" data-controller="form-field-vis">
           <h3 class="pink-font mt-5">Ingredients (up to 5)</h3>
