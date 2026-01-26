@@ -103,7 +103,8 @@ users.each do |user|
       user: user,
       name: name,
       about: about,
-      description: description
+      description: description,
+      img_url: Cocktail::COCKTAIL_IMAGES.sample
     )
 
     # Add doses (ingredient quantities)
