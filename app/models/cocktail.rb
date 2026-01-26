@@ -20,7 +20,9 @@ class Cocktail < ApplicationRecord
   validates :about, presence: true # Short description about the cocktail.
   validates :description, presence: true # Recipe method.
   COCKTAIL_IMAGES = (1..26).map { |i| "cocktail-#{i}.jpg" } # Builds an array of strings with reference to the cocktail image file names ["cocktail-1.jpg", "cocktail-2.jpg", "cocktail-3.jpg", "...", "cocktail-26.jpg"]
-  validates :img_url, presence: true, inclusion: { in: COCKTAIL_IMAGES} # Image url (drop down menu in form) linking to images already saved inside web app.
+  validates :img_url, inclusion: { in: COCKTAIL_IMAGES}
+  # The `inclusion` validation already ensures a value must be selected from the list, so `presence: true` is redundant.
+  # Image url (drop down menu in form) linking to images already saved inside web app.
 
   validate :max_doses_limit # In Rails, `validates` (plural) is used for built-in validation helpers like presence, uniqueness, length, and format, while `validate` (singular) is used for custom validation methods that contain your own business logic.
   validate :max_tags_limit
