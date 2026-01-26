@@ -25,11 +25,11 @@
       <!-- Revision form -->
       <div class="card bg-dark shadow-lg rounded-4">
         <div class="card-body p-4">
-          <%= simple_form_for :cocktail, url: revise_with_ai_cocktail_path(@cocktail), method: :patch, html: { class: "sipsense-revision-form form-text-label" } do |f| %>
+          <%= simple_form_for :cocktail, url: revise_with_ai_cocktail_path(@cocktail), method: :patch, data: { controller: "load-button" }, html: { class: "sipsense-revision-form form-text-label" } do |f| %>
             <%= f.input :prompt, label: "How would you like to revise this cocktail?", as: :text,
             input_html: { rows: 9, placeholder: "Examples:\n\n• Make it less sweet\n• Add a smoky element\n• Replace vodka with gin\n• Make it more tropical\n• Increase the alcohol content\n• Add a citrus twist", value: @prompt }, hint: "Be specific about what you want to change", wrapper_html: { class: "mb-4"}, required: true %>
             <div class="d-flex gap-3 flex-wrap">
-              <%= f.submit "Revise Cocktail", class: "btn btn-primary btn-lg flex-grow-1", data: { disable_with: "SipSense AI is revising..." } %>
+              <%= f.submit "Revise Cocktail", data: { action: "click->load-button#loader" }, class: "btn btn-primary btn-lg flex-grow-1" %>
               <!-- Can use the shorthand `@cocktail`` for the path instead of cocktail_path(@cocktail) -->
               <%= link_to "Back to Cocktail", @cocktail, class: "btn btn-outline-light btn-lg" %>
             </div>
