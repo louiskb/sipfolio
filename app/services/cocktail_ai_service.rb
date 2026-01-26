@@ -53,7 +53,8 @@ class CocktailAiService
     cocktail = @user.cocktails.build(
       name: data["name"],
       about: data["about"],
-      description: data["description"]
+      description: data["description"],
+      img_url: Cocktail::COCKTAIL_IMAGES.sample
     )
 
     # Loop through AI-generated ingredients
