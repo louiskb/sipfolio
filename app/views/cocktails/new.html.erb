@@ -9,6 +9,7 @@
         <%= f.input :name %>
         <%= f.input :about, label: "Short description about the cocktail" %>
         <%= f.input :description, label: "Recipe Method", hint: "Describe how to make the cocktail.", as: :text %>
+        <%= f.input :img_url, collection: Cocktail::COCKTAIL_IMAGES, prompt: "Select a cocktail image" %>
 
         <!-- Create doses and associated ingredients -->
         <div class="form-group" data-controller="form-field-vis">
