@@ -86,3 +86,5 @@ gem "ruby_llm-schema"
 gem "redcarpet"
 
 gem "cloudinary"
+
+gem "redis"
