@@ -82,4 +82,7 @@ gem "pundit"
 gem "ruby_llm"
 gem "ruby_llm-schema"
 
+# The `redcarpet` gem provides fast and secure Markdown parsing and rendering capabilities for Ruby applications. It converts Markdown-formatted text into HTML.
 gem "redcarpet"
+
+gem "cloudinary"
