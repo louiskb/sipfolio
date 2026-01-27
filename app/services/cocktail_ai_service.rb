@@ -129,7 +129,6 @@ class CocktailAiService
     cocktail.name = data["name"]
     cocktail.about = data["about"]
     cocktail.description = data["description"]
-    # cocktail.img_url = Cocktail::COCKTAIL_IMAGES.sample
 
     # Rebuild associations
     # Loop through AI-generated ingredients

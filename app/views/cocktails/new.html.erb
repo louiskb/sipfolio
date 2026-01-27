@@ -10,6 +10,9 @@
         <%= f.input :about, label: "Short description about the cocktail" %>
         <%= f.input :description, label: "Recipe Method", hint: "Describe how to make the cocktail.", as: :text %>
 
+        <!-- Upload image of cocktail -->
+        <%= f.input :photo, as: :file %>
+
         <!-- Cocktail image selector and preview -->
         <div class="row flex-column" data-controller="img-preview">
           <div class="col-12 col-md-6">
