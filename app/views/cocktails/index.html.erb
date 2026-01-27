@@ -39,7 +39,14 @@
                 <i class="fa-regular fa-heart h1-font fs-2 me-2"></i>
               <% end %>
             </div>
-            <%= image_tag (cocktail.img_url.presence || cocktail_img_list.sample), alt: "#{cocktail.name} cocktail", class: "rounded shadow border border-secondary border-1" %>
+            <!-- Cocktail image -->
+            <% if cocktail.photo.attached? %>
+              <!-- Cloudinary image: user uploaded image of cocktail -->
+              <%= cl_image_tag cocktail.photo.key %>
+            <% else %>
+              <!-- Pre-selected cocktail image selected by SipSense AI -->
+              <%= image_tag (cocktail.img_url.presence || cocktail_img_list.sample), alt: "#{cocktail.name} cocktail", class: "rounded shadow border border-secondary border-1" %>
+            <% end %>
             <div class="mt-3">
               <p class="ingredients">
                 <% @doses.each do |dose| %>
