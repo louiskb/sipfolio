@@ -5,7 +5,7 @@ export default class extends Controller {
   static targets = ["select", "image"]
 
   connect() {
-    console.log("img_preview controller connected")
+    console.log("img_preview controller connected!")
     // Set initial image on load if there's a selected value.
     this.updatePreview
   }
@@ -18,7 +18,7 @@ export default class extends Controller {
     // The first check prevents errors if `selectedValue` is null/undefined, and the second ensures there's actually a selection made (not just the "Select a cocktail image" prompt option).
     if (selectedValue && selectedValue !== "") {
       this.imageTarget.src = `/assets/${selectedValue}`
-      // Use `d-none` if using Bootstrap. 
+      // Use `d-none` if using Bootstrap.
       this.imageTarget.classList.remove("d-none")
     } else {
       this.imageTarget.classList.add("d-none")

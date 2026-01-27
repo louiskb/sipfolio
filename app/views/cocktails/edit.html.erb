@@ -10,20 +10,26 @@
         <%= f.input :about, label: "Short description about the cocktail" %>
         <%= f.input :description, label: "Recipe Method", hint: "Describe how to make the cocktail.", as: :text %>
 
-        <!-- Upload image of cocktail -->
-        <%= f.input :photo, as: :file %>
+        <!-- Upload image of cocktail with preview -->
+        <div data-controller="file-preview">
+          <%= f.input :photo, as: :file, label: "Cocktail photo", hint: "Upload your own image", input_html: { data: { file_preview_target: "input", action: "change->file-preview#preview" } }, accept: "image/*" %>
 
-        <!-- Cocktail image selector and preview -->
-        <div class="row flex-column" data-controller="img-preview">
-          <div class="col-12 col-md-6">
-            <%= f.input :img_url, collection: Cocktail::COCKTAIL_IMAGES, label: "Cocktail image", prompt: "Select a cocktail image", input_html: { data: { img_preview_target: "select", action: "change->img-preview#updatePreview" } } %>
-          </div>
-
-          <div class="col-12 col-md-6">
-            <!-- Breaking down `(f.object.img_url || "")`: `f.object` refers to the model instance (your Cocktail object) that the form is bound to. `f.object.img_url` accesses the `img-url` attribute of that Cocktail. If `img_url` has a value (e.g. "cocktail-3.jpg"), use that value (works when editing an existing cocktail). If `img_url` is `nil` (new record) or blank, use "" (empty string) instead (works when creating a new cocktail where img_url is nil). -->
-            <%= image_tag (f.object.img_url || ""), alt: "Cocktail drink", class: "border border-light border-5 rounded-4 shadow-sm mt-3 mh-img-form", data: { img_preview_target: "image" } %>
+          <div class="my-4 d-none" data-file-preview-target="container">
+            <%= image_tag "", alt: "Upload image preview", class: "border border-light border-5 rounded-4 shadow-sm mh-img-form", data: { file_preview_target: "image" } %>
           </div>
         </div>
+
+        <!-- Cocktail image selector and preview -->
+        <!-- <div class="row flex-column" data-controller="img-preview">
+          <div class="col-12 col-md-6">
+            <%#= f.input :img_url, collection: Cocktail::COCKTAIL_IMAGES, label: "Cocktail image", prompt: "Select a cocktail image", input_html: { data: { img_preview_target: "select", action: "change->img-preview#updatePreview" } } %>
+          </div> -->
+
+          <!-- <div class="col-12 col-md-6"> -->
+            <!-- Breaking down `(f.object.img_url || "")`: `f.object` refers to the model instance (your Cocktail object) that the form is bound to. `f.object.img_url` accesses the `img-url` attribute of that Cocktail. If `img_url` has a value (e.g. "cocktail-3.jpg"), use that value (works when editing an existing cocktail). If `img_url` is `nil` (new record) or blank, use "" (empty string) instead (works when creating a new cocktail where img_url is nil). -->
+            <%#= image_tag (f.object.img_url || ""), alt: "Cocktail drink", class: "border border-light border-5 rounded-4 shadow-sm mt-3 mh-img-form", data: { img_preview_target: "image" } %>
+          <!-- </div>
+        </div> -->
 
         <!-- Create doses and associated ingredients -->
         <div class="form-group">
