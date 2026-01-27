@@ -8,6 +8,8 @@ class Cocktail < ApplicationRecord
   has_many :ingredients, through: :doses # creates a method cocktail.ingredients
   has_many :tags, dependent: :destroy # creates a method cocktail.tags
   has_many :user_reviews, dependent: :destroy # creates a method cocktail.user_reviews
+  has_one_attached :photo # The `has_one_attached` macro (`has_one_attached :photo`) sets up a one-to-one mapping between records and files. Each record can have one file attached to it.
+  # The `has_many_attached` macro (`has_many_attached :photos`) sets up a one-to-many relationship between records and files. Each record can have many files attached to it.
 
   accepts_nested_attributes_for :doses, allow_destroy: true, reject_if: :all_blank
   accepts_nested_attributes_for :tags, allow_destroy: true, reject_if: :all_blank
