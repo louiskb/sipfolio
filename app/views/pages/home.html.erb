@@ -1,53 +1,54 @@
-<div class="banner h-100" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.7)), url(<%= asset_path(@hero_banner.sample) %>);">
-  <div class="container">
-    <h1>Your ultimate cocktail journal and discovery app</h1>
-    <p>Start exploring new cocktail recipes</p>
-    <%= link_to cocktails_path, class: "btn btn-primary btn-lg me-2" do%>
-      Discover Drinks <i class="fa-duotone fa-solid fa-martini-glass-citrus"></i>
+<div class="home-banner" style="background-image: url('<%= asset_path('hero_neon_cocktail.png') %>');">
+  <div class="container text-center">
+    <div class="neon-subtitle">Future-Ready Mixology</div>
+    <h1 class="neon-title">Your ultimate<br>cocktail journal<br>& discovery app</h1>
+    <p class="text-white opacity-75 mb-5 fs-4">Start exploring new cocktail recipes</p>
+    <%= link_to cocktails_path, class: "btn-neon text-decoration-none d-inline-block" do %>
+      DISCOVER DRINKS <i class="fa-duotone fa-solid fa-martini-glass-citrus ms-2"></i>
     <% end %>
   </div>
 </div>
-<section class="container my-5">
-  <div class="row row-cols-1 row-cols-md-3 g-4 my-5">
+
+<section class="container py-5 my-5">
+  <div class="text-center mb-5">
+    <h2 class="text-uppercase fw-bold mb-3" style="letter-spacing: 2px; color: #ff13f0; text-shadow: 0 0 5px rgba(255, 19, 240, 0.8), 0 0 15px rgba(255, 19, 240, 0.6), 0 0 30px rgba(255, 19, 240, 0.4), 0 0 50px rgba(255, 19, 240, 0.2);">Why Sipfolio?</h2>
+    <div style="width: 60px; height: 4px; background: #ff13f0; margin: 0 auto; box-shadow: 0 0 10px rgba(255, 19, 240, 0.5);"></div>
+  </div>
+
+  <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
     <div class="col">
       <%= link_to cocktails_path, class: "text-decoration-none" do %>
-        <div class="card bg-dark text-white shadow card-hover p-3 h-100 d-flex flex-column" style="cursor: pointer;">
-          <div class="card-body flex-grow-1">
-            <div class="d-flex align-items-center mb-2">
-              <span class="fs-2 me-2">🍸</span>
-              <h2 class="mb-0">Curate Your Sipfolio 🥂</h2>
-            </div>
+        <div class="neon-card h-100 d-flex flex-column text-white shadow" style="cursor: pointer;">
+          <div class="card-body flex-grow-1 text-center">
+            <div class="neon-icon"><i class="fa-solid fa-martini-glass-citrus"></i></div>
+            <h2 class="mb-3">Curate Your Sipfolio</h2>
             <p>Effortlessly collect, organize, and browse your favorite cocktails—build your personal drink library in seconds.</p>
           </div>
-          <%= image_tag "cocktails-banner-4.jpg", alt: "Cocktail drinks", class: "card-img-bottom mt-auto rounded" %>
+          <%= image_tag "cocktails-banner-4.jpg", alt: "Cocktail drinks", class: "card-img-bottom mt-auto", style: "opacity: 0.8; transition: opacity 0.3s;" %>
         </div>
       <% end %>
     </div>
     <div class="col">
       <%= link_to cocktails_path, class: "text-decoration-none" do %>
-        <div class="card bg-dark text-white shadow card-hover p-3 h-100 d-flex flex-column" style="cursor: pointer;">
-          <div class="card-body flex-grow-1">
-            <div class="d-flex align-items-center mb-2">
-              <span class="fs-2 me-2">🤖</span>
-              <h2 class="mb-0">AI Mixology Magic 🤖</h2>
-            </div>
+        <div class="neon-card h-100 d-flex flex-column text-white shadow" style="cursor: pointer;">
+          <div class="card-body flex-grow-1 text-center">
+            <div class="neon-icon"><i class="fa-solid fa-robot"></i></div>
+            <h2 class="mb-3">AI Mixology Magic</h2>
             <p>Get custom cocktail ideas, discover trending drinks, and let AI match recipes to your taste and ingredients.</p>
           </div>
-          <%= image_tag "cocktails-banner-5.jpg", alt: "Cocktail drinks", class: "card-img-bottom mt-auto rounded" %>
+          <%= image_tag "cocktails-banner-5.jpg", alt: "Cocktail drinks", class: "card-img-bottom mt-auto", style: "opacity: 0.8; transition: opacity 0.3s;" %>
         </div>
       <% end %>
     </div>
     <div class="col">
       <%= link_to cocktails_path, class: "text-decoration-none" do %>
-        <div class="card bg-dark text-white shadow card-hover p-3 h-100 d-flex flex-column" style="cursor: pointer;">
-          <div class="card-body flex-grow-1">
-            <div class="d-flex align-items-center mb-2">
-              <span class="fs-2 me-2">🌎</span>
-              <h2 class="mb-0">Share Globally 🌎</h2>
-            </div>
+        <div class="neon-card h-100 d-flex flex-column text-white shadow" style="cursor: pointer;">
+          <div class="card-body flex-grow-1 text-center">
+            <div class="neon-icon"><i class="fa-solid fa-earth-americas"></i></div>
+            <h2 class="mb-3">Share Globally</h2>
             <p>Connect with cocktail fans worldwide, share journals, and get inspired by drinks from every corner.</p>
           </div>
-          <%= image_tag "cocktails-banner-9.jpg", alt: "Cocktail drinks", class: "card-img-bottom mt-auto rounded" %>
+          <%= image_tag "cocktails-banner-9.jpg", alt: "Cocktail drinks", class: "card-img-bottom mt-auto", style: "opacity: 0.8; transition: opacity 0.3s;" %>
         </div>
       <% end %>
     </div>
