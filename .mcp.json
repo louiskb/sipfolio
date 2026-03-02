@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "playwright": {
+      "type": "http",
+      "url": "https://playwright.mcpservers.org/mcp"
+    },
+    "postgres": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://localhost/rails_mister_cocktail_development"
+      ],
+      "env": {}
+    }
+  }
+}

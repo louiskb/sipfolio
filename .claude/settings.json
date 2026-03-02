@@ -1,0 +1,71 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rails *)",
+      "Bash(bundle exec rails *)",
+      "Bash(bundle exec rake *)",
+      "Bash(bundle exec rubocop *)",
+      "Bash(bundle install)",
+      "Bash(bundle update *)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git checkout *)",
+      "Bash(git branch *)",
+      "Bash(git stash *)",
+      "Bash(git show *)",
+      "Bash(git fetch *)",
+      "Bash(git pull *)",
+      "Bash(gh *)",
+      "Bash(ls *)",
+      "Bash(cat *)",
+      "Bash(grep *)",
+      "Bash(rg *)",
+      "Bash(find *)",
+      "Bash(mkdir -p *)",
+      "Bash(touch *)",
+      "Bash(cp *)",
+      "Bash(mv *)",
+      "Bash(which *)",
+      "Bash(ruby -v)",
+      "Bash(ruby --version)",
+      "Bash(node *)",
+      "Bash(psql *)",
+      "Bash(open *)",
+      "Bash(echo *)",
+      "Bash(wc *)",
+      "Bash(sort *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(chmod *)"
+    ],
+    "deny": [
+      "Bash(rails db:drop*)",
+      "Bash(bundle exec rails db:drop*)",
+      "Bash(rm -rf *)",
+      "Bash(git push --force *)",
+      "Bash(git reset --hard *)",
+      "Bash(git clean -f*)",
+      "Read(config/master.key)",
+      "Read(config/credentials.yml.enc)",
+      "Read(*.key)",
+      "Read(*.crt)",
+      "Read(*.csr)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/devilfish/code/chifury/sipfolio/.claude/hooks/rubocop-fix.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
