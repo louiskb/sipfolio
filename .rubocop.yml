@@ -1,4 +1,9 @@
+require:
+  - rubocop-rails
+  - rubocop-minitest
+
 AllCops:
+  TargetRubyVersion: 3.3
   NewCops: enable
   Exclude:
     - 'bin/**/*'
