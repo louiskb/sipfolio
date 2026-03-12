@@ -1,5 +1,5 @@
 RubyLLM.configure do |config|
-  config.openai_api_key = ENV['GITHUB_TOKEN'] || Rails.application.credentials.dig(:openai_api_key)
+  config.openai_api_key = ENV.fetch('GITHUB_TOKEN', nil) || ENV.fetch('OPENAI_API_KEY', nil) # Rails.application.credentials.dig(:openai_api_key) if using Rails credentials
   config.openai_api_base = "https://models.inference.ai.azure.com"
   # config.default_model = "gpt-4.1-nano"
 
