@@ -9,8 +9,8 @@ recipes, and two separate AI features ("SipSense") generate recipes and answer q
 
 **Naming quirk:** the app started life as the Le Wagon "mister cocktail" challenge, so the
 Rails module is `RailsMisterCocktail` and the databases are `rails_mister_cocktail_development`
-/ `_test` / `_production` — not `sipfolio_*`. `.gitmodules` still points at the (uninitialised)
-Le Wagon `spec/` submodule; ignore it.
+/ `_test` / `_production` — not `sipfolio_*`. The Le Wagon `spec/` submodule was removed in
+9701f6c; there is no `spec/` directory.
 
 ## Tech Stack
 

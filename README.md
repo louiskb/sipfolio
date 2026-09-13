@@ -31,7 +31,7 @@ Sipfolio is a social cocktail app where users can share, rate, and discover crea
 
 1. Clone the repository
 2. Install dependencies — run `bundle install`
-3. Set up environment variables — copy `.env.example` to `.env` and fill in the required values (see [Environment Variables](#environment-variables) below)
+3. Set up environment variables — copy `.env.example` to `.env` and fill in the values (see [Environment Variables](#environment-variables) below). The seed keys are required before step 4.
 4. Set up the database — run `rails db:create db:migrate db:seed`
 5. Start the server — run `rails server`
 
@@ -39,13 +39,24 @@ Visit http://localhost:3000 to start exploring.
 
 ## Environment Variables
 
-Create a `.env` file at the root of the project with the following variables:
+Copy `.env.example` to `.env` at the root of the project and fill in:
 
 ```
 GITHUB_TOKEN=        # Azure AI inference API key (for SipSense Mix AI features)
 CLOUDINARY_URL=      # Cloudinary credentials for image storage
-REDIS_URL=           # Redis connection URL (required in production)
+REDIS_URL=           # Redis connection URL (required in production only)
+
+# Required by `rails db:seed`
+USER_PASSWORDS=      # password for the 22 generated users
+ADMIN_EMAIL=
+ADMIN_PASSWORD=
+ADMIN_USERNAME=
+USER_1_EMAIL=
+USER_1_PASSWORD=
+USER_1_USERNAME=
 ```
+
+Without `GITHUB_TOKEN` the app still runs; only the SipSense AI features are unavailable.
 
 ## License
 

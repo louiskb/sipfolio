@@ -34,8 +34,9 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
-# Ignore .env file containing credentials.
+# Ignore .env file containing credentials (keep the template).
 .env*
+!.env.example
 
 # Ignore Mac and Linux file system files
 *.swp
