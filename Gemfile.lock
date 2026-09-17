@@ -427,6 +427,7 @@ DEPENDENCIES
   font-awesome-sass (~> 6.1)
   importmap-rails
   jbuilder
+  json (< 3)
   pg (~> 1.1)
   puma (>= 5.0)
   pundit
