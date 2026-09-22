@@ -23,7 +23,7 @@ Sipfolio is a social cocktail app where users can share, rate, and discover crea
 - **Storage:** Cloudinary (images via Active Storage)
 - **Real-time:** Action Cable (WebSockets) + Redis
 - **AI:** ruby_llm with Azure/OpenAI GPT-4o
-- **Deployment:** Heroku
+- **Deployment:** none — runs locally only (previously Heroku, retired 2026-09-22)
 - **Authentication:** Devise
 - **Authorization:** Pundit
 

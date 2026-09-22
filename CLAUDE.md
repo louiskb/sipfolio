@@ -16,7 +16,8 @@ Rails module is `RailsMisterCocktail` and the databases are `rails_mister_cockta
 
 Ruby 3.3.5 · Rails 7.1.5 · PostgreSQL · Devise · Pundit · Hotwire (Turbo + Stimulus) ·
 Bootstrap 5.3 (sassc-rails + sprockets, **not** cssbundling) · importmap · simple_form ·
-Active Storage → Cloudinary · ruby_llm + ruby_llm-schema · redcarpet · Minitest · Heroku.
+Active Storage → Cloudinary · ruby_llm + ruby_llm-schema · redcarpet · Minitest.
+(No hosting — see "Deployment".)
 
 ## Commands
 
@@ -148,7 +149,7 @@ Stimulus controllers (`app/javascript/controllers/`, eager-loaded via importmap)
 |---|---|
 | `GITHUB_TOKEN` | Azure AI inference key for all ruby_llm calls |
 | `CLOUDINARY_URL` | Active Storage `:cloudinary` service (dev **and** production) |
-| `REDIS_URL` | Action Cable adapter in production |
+| `REDIS_URL` | Action Cable adapter in production — **unused now**, no production exists |
 | `ADMIN_EMAIL` / `ADMIN_PASSWORD` / `ADMIN_USERNAME` | seeds only |
 | `USER_1_EMAIL` / `USER_1_PASSWORD` / `USER_1_USERNAME` | seeds only |
 | `USER_PASSWORDS` | password for the 22 Faker users in seeds |
@@ -199,8 +200,27 @@ Real bugs already in `master` — don't mistake them for intended behaviour, and
 
 ## Deployment
 
-Heroku (`heroku` remote on `master`). `Procfile` is `release: rails db:migrate` only — there
-is no `web:` line, so Heroku falls back to its default Rails web command.
+**There is no deployment. This app is local-only as of 2026-09-22.**
+
+It used to run on Heroku at `sipfolio.rocks`. That app was destroyed (along with its
+`heroku-postgresql:essential-0` and `heroku-redis:mini` add-ons) to stop the monthly
+charge, and `apps:destroy` removed the `heroku` git remote — `origin` (GitHub) is the
+only remote now. A final database dump lives outside the repo at
+`~/code/louiskb/sipfolio-archive/sipfolio-db-2026-09-22.dump`.
+
+Vestiges of that setup still sit in the tree and are **not** wired to anything:
+
+- `Procfile` (`release: rails db:migrate`) — Heroku-only, inert.
+- `Dockerfile` / `.dockerignore` — Rails 7.1 scaffold defaults, never used to deploy.
+- `sipfolio.rocks.crt` / `.csr` / `.key` — TLS material for the old custom domain.
+  Gitignored (`*.crt`/`*.csr`/`*.key`) and mode 600, so they have never been committed.
+  Defunct: the domain is frozen at the registrar until late 2027.
+
+Cloudinary is unaffected — uploaded images live in that account, not on Heroku, and
+`CLOUDINARY_URL` is still required in development for Active Storage to work.
+
+If this is ever redeployed, note that `REDIS_URL` was only needed for the production
+Action Cable adapter (`config/cable.yml`); development uses the `async` adapter.
 
 ## Detailed rules
 
