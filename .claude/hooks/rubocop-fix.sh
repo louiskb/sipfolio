@@ -7,7 +7,7 @@ FILE_PATH=$(echo "$INPUT" | python3 -c "import sys,json; d=json.load(sys.stdin);
 
 if [[ "$FILE_PATH" == *.rb ]]; then
   cd "$(dirname "$FILE_PATH")" 2>/dev/null
-  cd /Users/devilfish/code/chifury/sipfolio
+  cd "$CLAUDE_PROJECT_DIR" 2>/dev/null
   bundle exec rubocop --autocorrect --no-color "$FILE_PATH" 2>/dev/null
 fi
 
