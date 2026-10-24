@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: Moscow Mule
+  about: Spicy, fizzy and refreshing.
+  description: Build over ice and top with ginger beer.
+  img_url: cocktail-1.jpg
+  ai_generated: false
+  user: one
+
+two:
+  name: Gimlet
+  about: Sharp, citrusy and strong.
+  description: Shake with ice and strain into a chilled glass.
+  img_url: cocktail-2.jpg
+  ai_generated: false
+  user: two

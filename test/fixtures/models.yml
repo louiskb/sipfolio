@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+#
+# ruby_llm's acts_as_* persistence reads its model registry from this table, so any model
+# id the app asks for (CocktailAiService's "gpt-4o", RubyLLM's default "gpt-4.1-nano")
+# must exist here or ruby_llm raises ModelNotFoundError. Values copied from `Model.refresh!`.
+
+gpt_4o:
+  model_id: gpt-4o
+  name: GPT-4o
+  provider: openai
+  family: gpt-4o
+  context_window: 128000
+  max_output_tokens: 16384
+  modalities: { input: [image, text], output: [embeddings, text] }
+  capabilities: [batch, function_calling, structured_output]
+
+gpt_4_1_nano:
+  model_id: gpt-4.1-nano
+  name: GPT-4.1 nano
+  provider: openai
+  family: gpt-4.1-nano
+  context_window: 1047576
+  max_output_tokens: 32768
+  modalities: { input: [image, text], output: [embeddings, text] }
+  capabilities: [batch, function_calling, structured_output]
