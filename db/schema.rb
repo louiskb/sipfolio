@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_24_084604) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_24_084946) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -117,19 +117,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_24_084604) do
   create_table "messages", force: :cascade do |t|
     t.string "role", null: false
     t.text "content"
-    t.json "content_raw"
-    t.integer "input_tokens"
-    t.integer "output_tokens"
-    t.integer "cached_tokens"
-    t.integer "cache_creation_tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "chat_id", null: false
-    t.bigint "model_id"
-    t.bigint "tool_call_id"
     t.text "thinking_text"
     t.text "thinking_signature"
-    t.integer "thinking_tokens"
     t.boolean "cache_until_here", default: false, null: false
     t.string "finish_reason"
     t.jsonb "citations"
@@ -137,9 +129,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_24_084604) do
     t.jsonb "raw_content"
     t.jsonb "raw_reasoning"
     t.index ["chat_id"], name: "index_messages_on_chat_id"
-    t.index ["model_id"], name: "index_messages_on_model_id"
-    t.index ["role"], name: "index_messages_on_role"
-    t.index ["tool_call_id"], name: "index_messages_on_tool_call_id"
   end
 
   create_table "points", force: :cascade do |t|
@@ -267,13 +256,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_24_084604) do
     t.check_constraint "status::text = ANY (ARRAY['pending'::character varying, 'succeeded'::character varying, 'failed'::character varying, 'cancelled'::character varying]::text[])"
   end
 
-  create_table "ruby_llm_v2_backfills", id: false, force: :cascade do |t|
-    t.string "task", null: false
-    t.bigint "last_id"
-    t.boolean "completed", default: false, null: false
-    t.index ["task"], name: "index_ruby_llm_v2_backfills_on_task", unique: true
-  end
-
   create_table "tags", force: :cascade do |t|
     t.string "name"
     t.bigint "cocktail_id", null: false
@@ -322,8 +304,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_24_084604) do
   add_foreign_key "favorites", "cocktails"
   add_foreign_key "favorites", "users"
   add_foreign_key "messages", "chats"
-  add_foreign_key "messages", "ruby_llm_models", column: "model_id"
-  add_foreign_key "messages", "ruby_llm_tool_calls", column: "tool_call_id"
   add_foreign_key "points", "profiles"
   add_foreign_key "profile_achievements", "achievements"
   add_foreign_key "profile_achievements", "profiles"
