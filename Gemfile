@@ -3,7 +3,7 @@ source "https://rubygems.org"
 ruby "3.3.5"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.2.4"
+gem "rails", "~> 8.0.5", ">= 8.0.5.1"
 # json 3.0 (2026-09-07) breaks Rails 7.1: JSON.generate rejects the quirks_mode: option, so every page
 # that writes the session cookie 500s. Rails 7.1 is end-of-life and won't get a fix: keep this pin.
 gem "json", "< 3"
