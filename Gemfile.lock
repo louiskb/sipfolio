@@ -331,17 +331,17 @@ GEM
       rubocop (>= 1.75.0, < 2.0)
       rubocop-ast (>= 1.44.0, < 2.0)
     ruby-progressbar (1.13.0)
-    ruby_llm (1.9.1)
+    ruby_llm (1.16.0)
       base64
       event_stream_parser (~> 1)
       faraday (>= 1.10.0)
       faraday-multipart (>= 1)
       faraday-net_http (>= 1)
       faraday-retry (>= 1)
-      marcel (~> 1.0)
-      ruby_llm-schema (~> 0.2.1)
+      marcel (~> 1)
+      ruby_llm-schema (~> 0)
       zeitwerk (~> 2)
-    ruby_llm-schema (0.2.5)
+    ruby_llm-schema (0.4.0)
     rubyzip (3.0.2)
     sassc (2.4.0)
       ffi (~> 1.9)
@@ -437,7 +437,7 @@ DEPENDENCIES
   rubocop
   rubocop-minitest
   rubocop-rails
-  ruby_llm
+  ruby_llm (~> 1.16.0)
   ruby_llm-schema
   sassc-rails
   selenium-webdriver
