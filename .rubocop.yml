@@ -45,3 +45,8 @@ Style/EmptyMethod:
   Enabled: false
 Bundler/OrderedGems:
   Enabled: false
+# Switched on by rubocop-rails once the app targets Rails 8. Moving the six
+# `params.require(...).permit(...)` calls to `params.expect(...)` changes behaviour
+# (bad params become 400s, nested arrays need `[[...]]`), so it is a separate change.
+Rails/StrongParametersExpect:
+  Enabled: false
