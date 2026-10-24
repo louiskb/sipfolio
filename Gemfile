@@ -3,10 +3,7 @@ source "https://rubygems.org"
 ruby "3.3.5"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.1.5", ">= 7.1.5.2"
-# json 3.0 (2026-09-07) breaks Rails 7.1: JSON.generate rejects the quirks_mode: option, so every page
-# that writes the session cookie 500s. Rails 7.1 is end-of-life and won't get a fix: keep this pin.
-gem "json", "< 3"
+gem "rails", "~> 8.1.4"
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
@@ -57,6 +54,12 @@ group :development, :test do
   gem "dotenv-rails"
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ]
+
+  # Audits gems for known security defects (use config/bundler-audit.yml to ignore issues)
+  gem "bundler-audit", require: false
+
+  # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
+  gem "brakeman", require: false
 end
 
 group :development do
@@ -78,6 +81,7 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  gem "webmock"
 end
 
 gem "devise"
@@ -86,8 +90,7 @@ gem "faker"
 
 gem "pundit"
 
-gem "ruby_llm"
-gem "ruby_llm-schema"
+gem "ruby_llm", "~> 2.1.0"
 
 # The `redcarpet` gem provides fast and secure Markdown parsing and rendering capabilities for Ruby applications. It converts Markdown-formatted text into HTML.
 gem "redcarpet"

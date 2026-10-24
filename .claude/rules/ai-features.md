@@ -1,7 +1,9 @@
 # AI Features (SipSense) Rules
 
 ## Overview
-Sipfolio uses `ruby_llm` + `ruby_llm-schema` gems for AI-powered cocktail generation and revision.
+Sipfolio uses the `ruby_llm` gem (2.x) for AI-powered cocktail generation and revision. Schemas
+subclass `Schematist::Schema` (installed with ruby_llm); read structured answers with
+`response.parsed` — `response.content` is the JSON string.
 Service object: `app/services/cocktail_ai_service.rb`
 
 ## Routes
@@ -35,5 +37,7 @@ end
 ```
 
 ## Models used
-The `Model` resource (`app/models/model.rb`) tracks available AI models with a `refresh` action.
-The `ToolCall` model logs raw AI tool calls for debugging.
+Since ruby_llm 2.0 the model registry and tool calls belong to ruby_llm (`ruby_llm_models`,
+`ruby_llm_tool_calls`); there are no app `Model` / `ToolCall` classes. `ModelsController` lists
+`RubyLLM.models` and its `refresh` action calls `RubyLLM.models.refresh`. Tool calls on a message:
+`message.tool_calls.each_value`.

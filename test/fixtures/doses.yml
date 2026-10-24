@@ -1,0 +1,16 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one_vodka:
+  amount: 45
+  cocktail: one
+  ingredient: vodka
+
+one_lime:
+  amount: 10
+  cocktail: one
+  ingredient: lime_juice
+
+two_gin:
+  amount: 60
+  cocktail: two
+  ingredient: gin

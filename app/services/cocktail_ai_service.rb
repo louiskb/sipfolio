@@ -10,7 +10,7 @@ class CocktailAiService
     response = chat.ask(prompt)
 
     # Create cocktail with nested associations
-    build_cocktail_from_data(response.content)
+    build_cocktail_from_data(response.parsed)
   end
 
   # REVISE existing cocktail
@@ -19,7 +19,7 @@ class CocktailAiService
     response = chat.ask(revision_prompt)
 
     # Update cocktail with nested associations
-    update_cocktail_from_data(cocktail, response.content)
+    update_cocktail_from_data(cocktail, response.parsed)
   end
 
   private

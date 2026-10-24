@@ -4,7 +4,8 @@ Rails.application.routes.draw do
     resources :messages, only: [:create]
   end
 
-  resources :models, only: [:index, :show] do
+  # Model ids contain dots (gpt-4.1-nano), so let :id take them instead of treating them as a format.
+  resources :models, only: [:index, :show], constraints: { id: %r{[^/]+} } do
     collection do
       post :refresh
     end

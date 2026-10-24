@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_26_083110) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_24_085035) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
 
   create_table "achievements", force: :cascade do |t|
     t.string "name"
@@ -64,8 +64,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_26_083110) do
   create_table "chats", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "model_id"
-    t.index ["model_id"], name: "index_chats_on_model_id"
+    t.bigint "ruby_llm_model_id"
+    t.boolean "cancelled", default: false, null: false
+    t.index ["ruby_llm_model_id"], name: "index_chats_on_ruby_llm_model_id"
   end
 
   create_table "cocktails", force: :cascade do |t|
@@ -116,42 +117,19 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_26_083110) do
   create_table "messages", force: :cascade do |t|
     t.string "role", null: false
     t.text "content"
-    t.json "content_raw"
-    t.integer "input_tokens"
-    t.integer "output_tokens"
-    t.integer "cached_tokens"
-    t.integer "cache_creation_tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "chat_id", null: false
-    t.bigint "model_id"
-    t.bigint "tool_call_id"
+    t.text "thinking_text"
+    t.text "thinking_signature"
+    t.boolean "cache_until_here", default: false, null: false
+    t.string "finish_reason"
+    t.jsonb "citations"
+    t.jsonb "server_tool_calls"
+    t.jsonb "raw_content"
+    t.jsonb "raw_reasoning"
+    t.string "cache_ttl"
     t.index ["chat_id"], name: "index_messages_on_chat_id"
-    t.index ["model_id"], name: "index_messages_on_model_id"
-    t.index ["role"], name: "index_messages_on_role"
-    t.index ["tool_call_id"], name: "index_messages_on_tool_call_id"
-  end
-
-  create_table "models", force: :cascade do |t|
-    t.string "model_id", null: false
-    t.string "name", null: false
-    t.string "provider", null: false
-    t.string "family"
-    t.datetime "model_created_at"
-    t.integer "context_window"
-    t.integer "max_output_tokens"
-    t.date "knowledge_cutoff"
-    t.jsonb "modalities", default: {}
-    t.jsonb "capabilities", default: []
-    t.jsonb "pricing", default: {}
-    t.jsonb "metadata", default: {}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["capabilities"], name: "index_models_on_capabilities", using: :gin
-    t.index ["family"], name: "index_models_on_family"
-    t.index ["modalities"], name: "index_models_on_modalities", using: :gin
-    t.index ["provider", "model_id"], name: "index_models_on_provider_and_model_id", unique: true
-    t.index ["provider"], name: "index_models_on_provider"
   end
 
   create_table "points", force: :cascade do |t|
@@ -191,24 +169,128 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_26_083110) do
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
-  create_table "tags", force: :cascade do |t|
-    t.string "name"
-    t.bigint "cocktail_id", null: false
+  create_table "ruby_llm_batches", force: :cascade do |t|
+    t.string "provider_batch_id", null: false
+    t.string "provider", null: false
+    t.string "status", null: false
+    t.string "raw_status"
+    t.boolean "completed", default: false, null: false
+    t.string "chat_type"
+    t.string "batch_protocol"
+    t.jsonb "chat_ids", default: []
+    t.jsonb "request_counts"
+    t.jsonb "reported_cost"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["cocktail_id"], name: "index_tags_on_cocktail_id"
+    t.index ["provider", "provider_batch_id"], name: "index_ruby_llm_batches_on_provider_and_provider_batch_id", unique: true
+    t.index ["status"], name: "index_ruby_llm_batches_on_status"
   end
 
-  create_table "tool_calls", force: :cascade do |t|
+  create_table "ruby_llm_mcp_credentials", force: :cascade do |t|
+    t.string "owner_type"
+    t.bigint "owner_id"
+    t.string "key", null: false
+    t.text "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_ruby_llm_mcp_credentials_on_key", unique: true
+    t.index ["owner_type", "owner_id"], name: "index_ruby_llm_mcp_credentials_on_owner"
+  end
+
+  create_table "ruby_llm_models", force: :cascade do |t|
+    t.string "model_id", null: false
+    t.string "name", null: false
+    t.string "provider", null: false
+    t.string "family"
+    t.datetime "model_created_at"
+    t.integer "context_window"
+    t.integer "max_output_tokens"
+    t.date "knowledge_cutoff"
+    t.jsonb "modalities", default: {}
+    t.jsonb "capabilities", default: []
+    t.jsonb "pricing", default: {}
+    t.jsonb "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "unlisted_at"
+    t.index ["capabilities"], name: "index_ruby_llm_models_on_capabilities", using: :gin
+    t.index ["family"], name: "index_ruby_llm_models_on_family"
+    t.index ["modalities"], name: "index_ruby_llm_models_on_modalities", using: :gin
+    t.index ["provider", "model_id"], name: "index_ruby_llm_models_on_provider_and_model_id", unique: true
+    t.index ["provider"], name: "index_ruby_llm_models_on_provider"
+  end
+
+  create_table "ruby_llm_provider_files", force: :cascade do |t|
+    t.string "blob_key", null: false
+    t.string "provider", null: false
+    t.string "account", null: false
+    t.text "file_id", null: false
+    t.datetime "expires_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["blob_key", "provider", "account"], name: "index_ruby_llm_provider_files_uniqueness", unique: true
+  end
+
+  create_table "ruby_llm_tool_calls", force: :cascade do |t|
     t.string "tool_call_id", null: false
     t.string "name", null: false
     t.jsonb "arguments", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "message_id", null: false
-    t.index ["message_id"], name: "index_tool_calls_on_message_id"
-    t.index ["name"], name: "index_tool_calls_on_name"
-    t.index ["tool_call_id"], name: "index_tool_calls_on_tool_call_id", unique: true
+    t.text "thought_signature"
+    t.string "message_type", null: false
+    t.string "result_type"
+    t.bigint "result_id"
+    t.string "approval"
+    t.boolean "remote", default: false, null: false
+    t.jsonb "mcp_state"
+    t.jsonb "mcp_result"
+    t.index ["message_type", "message_id"], name: "index_ruby_llm_tool_calls_on_message_type_and_message_id"
+    t.index ["name"], name: "index_ruby_llm_tool_calls_on_name"
+    t.index ["result_type", "result_id"], name: "index_ruby_llm_tool_calls_on_result_type_and_result_id"
+    t.index ["tool_call_id"], name: "index_ruby_llm_tool_calls_on_tool_call_id", unique: true
+  end
+
+  create_table "ruby_llm_usages", force: :cascade do |t|
+    t.string "chat_type"
+    t.bigint "chat_id"
+    t.string "message_type"
+    t.bigint "message_id"
+    t.string "operation", null: false
+    t.string "provider", null: false
+    t.string "model", null: false
+    t.string "status", null: false
+    t.integer "input_tokens"
+    t.integer "output_tokens"
+    t.integer "cache_read_tokens"
+    t.integer "cache_write_tokens"
+    t.integer "thinking_tokens"
+    t.decimal "input_cost", precision: 16, scale: 10
+    t.decimal "output_cost", precision: 16, scale: 10
+    t.decimal "cache_read_cost", precision: 16, scale: 10
+    t.decimal "cache_write_cost", precision: 16, scale: 10
+    t.decimal "thinking_cost", precision: 16, scale: 10
+    t.decimal "total_cost", precision: 16, scale: 10
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.jsonb "server_tool_use"
+    t.string "owner_type"
+    t.bigint "owner_id"
+    t.index ["chat_type", "chat_id"], name: "index_ruby_llm_usages_on_chat_type_and_chat_id"
+    t.index ["message_type", "message_id"], name: "index_ruby_llm_usages_on_message_type_and_message_id"
+    t.index ["owner_type", "owner_id"], name: "index_ruby_llm_usages_on_owner"
+    t.index ["status"], name: "index_ruby_llm_usages_on_status"
+    t.check_constraint "operation::text = ANY (ARRAY['chat'::text, 'embedding'::text, 'moderation'::text, 'image'::text, 'speech'::text, 'transcription'::text, 'ocr'::text, 'rerank'::text, 'judgment'::text, 'video'::text, 'research'::text])"
+    t.check_constraint "status::text = ANY (ARRAY['pending'::character varying, 'succeeded'::character varying, 'failed'::character varying, 'cancelled'::character varying]::text[])"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.bigint "cocktail_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cocktail_id"], name: "index_tags_on_cocktail_id"
   end
 
   create_table "user_reviews", force: :cascade do |t|
@@ -244,15 +326,13 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_26_083110) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "chats", "models"
+  add_foreign_key "chats", "ruby_llm_models"
   add_foreign_key "cocktails", "users"
   add_foreign_key "doses", "cocktails"
   add_foreign_key "doses", "ingredients"
   add_foreign_key "favorites", "cocktails"
   add_foreign_key "favorites", "users"
   add_foreign_key "messages", "chats"
-  add_foreign_key "messages", "models"
-  add_foreign_key "messages", "tool_calls"
   add_foreign_key "points", "profiles"
   add_foreign_key "profile_achievements", "achievements"
   add_foreign_key "profile_achievements", "profiles"
@@ -260,7 +340,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_26_083110) do
   add_foreign_key "profile_badges", "profiles"
   add_foreign_key "profiles", "users"
   add_foreign_key "tags", "cocktails"
-  add_foreign_key "tool_calls", "messages"
   add_foreign_key "user_reviews", "cocktails"
   add_foreign_key "user_reviews", "users"
 end
