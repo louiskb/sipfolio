@@ -14,7 +14,7 @@
     <% @chat.messages.where.not(id: nil).each do |message| %>
       <%= render message %>
       <% if message.role == "assistant" %>
-    <p class="text-secondary">Tokens used: <%= message.input_tokens %> input, <%= message.output_tokens %> output </p>
+    <p class="text-secondary">Tokens used: <%= message.tokens&.input %> input, <%= message.tokens&.output %> output </p>
       <% end %>
     <% end %>
   </div>

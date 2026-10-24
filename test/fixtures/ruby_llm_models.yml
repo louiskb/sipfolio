@@ -1,8 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 #
-# ruby_llm's acts_as_* persistence reads its model registry from this table, so any model
-# id the app asks for (CocktailAiService's "gpt-4o", RubyLLM's default "gpt-4.1-nano")
-# must exist here or ruby_llm raises ModelNotFoundError. Values copied from `Model.refresh!`.
+# ruby_llm 2.x owns this table and reads its model registry from it, so any model id the
+# app asks for (CocktailAiService's "gpt-4o", the configured default "gpt-4.1-nano") must
+# exist here or ruby_llm raises ModelNotFoundError. Values copied from the registry.
+
+_fixture:
+  model_class: RubyLLM::ActiveRecord::Model
 
 gpt_4o:
   model_id: gpt-4o

@@ -1,6 +1,4 @@
-require "ruby_llm/schema"
-
-class CocktailSchema < RubyLLM::Schema
+class CocktailSchema < Schematist::Schema
   # Basic cocktail info.
   string :name,
     description: "Creative and appealing cocktail name"

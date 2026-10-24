@@ -5,6 +5,7 @@ RubyLLM.configure do |config|
   # from gpt-4.1-nano to gpt-5.4; pin the model SipSense has always used.
   config.default_model = "gpt-4.1-nano"
 
-  # Use the new association-based acts_as API (recommended)
-  config.use_new_acts_as = true
+  # ruby_llm 2.0 sends OpenAI requests to the Responses API by default. The Azure AI inference endpoint
+  # above only speaks Chat Completions, so keep that protocol.
+  config.openai_protocol = :chat_completions
 end

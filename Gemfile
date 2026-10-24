@@ -84,8 +84,7 @@ gem "faker"
 
 gem "pundit"
 
-gem "ruby_llm", "~> 1.16.0"
-gem "ruby_llm-schema"
+gem "ruby_llm", "~> 2.0.0"
 
 # The `redcarpet` gem provides fast and secure Markdown parsing and rendering capabilities for Ruby applications. It converts Markdown-formatted text into HTML.
 gem "redcarpet"

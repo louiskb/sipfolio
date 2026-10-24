@@ -43,6 +43,7 @@ class PagesRenderTest < ActionDispatch::IntegrationTest
       new_chat_path,
       chat_path(chat),
       models_path,
+      model_path("gpt-4.1-nano", provider: "openai"),
       edit_user_registration_path
     ]
 
